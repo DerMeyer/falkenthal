@@ -59,14 +59,26 @@ a {
     justify-self: center;
     align-items: center;
 }
+
 .menuBlank {
     justify-self: end;
     align-items: center;
 }
+
 .menuBlank img {
     height: 6vh;
     margin: .5vh;
     opacity: .3;
+}
+.menuBlank a {
+    height: 6vh;
+    transition-duration: .2s;
+}
+.menuBlank a:last-child {
+    border-left: 1px solid lightgray;
+}
+.menuBlank a:hover {
+    opacity: .6;
 }
 
 .header img {
