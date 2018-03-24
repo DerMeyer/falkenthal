@@ -1,0 +1,98 @@
+/* root */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    /* font-family: 'Cormorant Garamond', serif; */
+    /* font-family: 'Fredericka the Great', cursive; */
+    /* font-family: 'Annie Use Your Telescope', cursive; */
+    font-family: 'Cardo', serif;
+}
+
+body {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    top: 10vh;
+    height: 90vh;
+}
+
+.scrollContainer {
+    display: grid;
+    grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+    height: 120vh;
+    width: 80vw;
+    margin-top: 5vh;
+}
+
+/* menu */
+
+.menu {
+    position: fixed;
+    top: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 9vh;
+    width: 100%;
+    padding: 0 13vw;
+    box-shadow: .3vh .3vh 1vh lightgray;
+    background-color: white;
+    z-index: 10;
+}
+
+.header, .menuBlank {
+    display: flex;
+    height: 9vh;
+}
+
+.header {
+    justify-self: center;
+    align-items: center;
+}
+.menuBlank {
+    justify-self: end;
+    align-items: center;
+}
+.menuBlank img {
+    height: 6vh;
+    margin: .5vh;
+    opacity: .3;
+}
+
+.header img {
+    height: 6.5vh;
+    margin: 0 2vh;
+}
+
+.header h1, .header a {
+    color: rgba(15, 36, 83, .7);
+}
+
+.header h1 {
+    font-size: 4vh;
+    font-weight: 400;
+}
+
+.header a {
+    font-size: 3vh;
+    /* margin: 0 3vh; */
+}
+
+.image {
+    justify-self: center;
+    align-self: center;
+    height: 35vh;
+    width: 35vh;
+    border-radius: .5vh;
+    box-shadow: .3vh .3vh 1vh lightgray;
+}
