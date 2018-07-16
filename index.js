@@ -38,13 +38,6 @@ const cookieSessionMiddleware = cookieSession({
 });
 app.use(cookieSessionMiddleware);
 
-const csurf = require('csurf');
-app.use(csurf());
-app.use((req, res, next) => {
-    res.cookie('mytoken', req.csrfToken());
-    next();
-});
-
 const compression = require('compression');
 app.use(compression());
 
@@ -100,7 +93,7 @@ app.post('/upload_image', uploader.single('file'), s3upload, async (req, res) =>
             console.log(err);
             res.json({
                 success: false,
-                message: 'Beim Upload ist etwas schiefgelaufen. Sag am besten Simon bescheid.'
+                message: 'Beim Upload ist etwas schiefgelaufen.'
             });
         }
     } else {
