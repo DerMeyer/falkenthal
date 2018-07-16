@@ -44,13 +44,26 @@ app.use(compression());
 const bp = require('body-parser');
 app.use(bp.json());
 
+app.get('/ichbinjens', (req, res) => res.sendFile(`${__dirname}/public/index.html`));
+
 app.use(express.static(`${__dirname}/public`));
+
+app.get('/admin', (req, res) => {
+    if (req.session.admin) {
+        res.json({
+            admin: true
+        });
+    } else {
+        res.json({
+            admin: false
+        });
+    }
+});
 
 app.get('/logout', (req, res) => {
     req.session = null;
     res.json({
-        success: true,
-        message: 'Du bist jetzt ausgelogged.'
+        success: true
     });
 });
 
@@ -62,8 +75,7 @@ app.post('/login', (req, res) => {
         });
     } else {
         res.json({
-            success: false,
-            message: 'Falsches Passwort.'
+            success: false
         });
     }
 });

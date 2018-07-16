@@ -27,10 +27,12 @@
                     <a href="https://www.instagram.com/falkenthal_illustration/" target="_blank"><img src="insta.png" class="iconBlank"></a>
                     <a href="https://www.facebook.com/Falkenthal/" target="_blank"><img src="fb.svg" class="iconBlank"></a>
                 </div>
+                <button v-if="admin" @click="logout">Log out</button>
             </header>
 
             <section class="container">
-                <folders></folders>
+                <folders v-if="home"></folders>
+                <login v-else></login>
             </section>
         </section>
 
@@ -45,6 +47,14 @@
                 <img src="images/g.jpg" class="image">
                 <img src="images/h.jpg" class="image">
                 <img src="images/i.jpg" class="image">
+            </section>
+        </script>
+
+        <script id="login" type="text/x-template">
+            <section class="login_input">
+                <h2>{{ message }}</h2>
+                <input type="password" placeholder="Passwort" v-model="pw" @keydown="login"></input>
+                <button @click="login">Log in</button>
             </section>
         </script>
 

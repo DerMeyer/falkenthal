@@ -22,6 +22,22 @@ a {
     text-decoration: none;
 }
 
+input {
+    font-family: 'The Girl Next Door', cursive;
+    font-size: 2.5vh;
+    text-align: center;
+    height: 4vh;
+    width: 30vw;
+}
+
+button {
+    cursor: pointer;
+    font-family: 'The Girl Next Door', cursive;
+    font-size: 2vh;
+    width: 10vw;
+    margin-top: 3vh;
+}
+
 /* menu */
 
 header, .headline, .menu_target_blank {
@@ -115,4 +131,17 @@ header {
     max-width: 25vw;
     border-radius: .5vh;
     box-shadow: .3vh .3vh 1vh lightgray;
+}
+
+/* admin */
+
+.login_input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10vh;
+}
+
+.login_input h2 {
+    font-size: 3vh;
 }
