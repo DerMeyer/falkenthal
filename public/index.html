@@ -27,6 +27,7 @@
                     <a href="https://www.instagram.com/falkenthal_illustration/" target="_blank"><img src="insta.png" class="iconBlank"></a>
                     <a href="https://www.facebook.com/Falkenthal/" target="_blank"><img src="fb.svg" class="iconBlank"></a>
                 </div>
+                <h2 v-if="admin">{{ message }}</h2>
                 <button v-if="admin" @click="logout">Log out</button>
             </header>
 

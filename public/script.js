@@ -54,10 +54,11 @@
                     if (resp.data.success) {
                         app.admin = false;
                     } else {
-                        app.message = 'Der Server antwortet nicht.';
+                        app.message = 'Da ist was schiefgelaufen .';
                     }
                 }).catch(function(err) {
                     console.log(err);
+                    app.message = 'Der Server antwortet nicht .';
                 });
             }
         }
