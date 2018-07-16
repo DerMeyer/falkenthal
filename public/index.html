@@ -12,12 +12,12 @@
 
     <body>
         <section id="app">
-            <section class="menu">
-                <header>
+            <header>
+                <section class="headline">
                     <h1>Falkenthal</h1>
                     <img src="icon.png" alt="icon">
                     <h1>Illustration</h1>
-                </header>
+                </section>
                 <section class="menu_page">
                     <p>Projekte</p>
                     <p>Kontakt</p>
@@ -27,13 +27,15 @@
                     <a href="https://www.instagram.com/falkenthal_illustration/" target="_blank"><img src="insta.png" class="iconBlank"></a>
                     <a href="https://www.facebook.com/Falkenthal/" target="_blank"><img src="fb.svg" class="iconBlank"></a>
                 </div>
+            </header>
+
+            <section class="container">
+                <folders></folders>
             </section>
-
-
         </section>
 
-        <section class="container">
-            <section class="scrollContainer">
+        <script id="folders" type="text/x-template">
+            <section class="scroll_container">
                 <img src="images/a.jpg" class="image">
                 <img src="images/b.jpg" class="image">
                 <img src="images/c.jpg" class="image">
@@ -44,7 +46,7 @@
                 <img src="images/h.jpg" class="image">
                 <img src="images/i.jpg" class="image">
             </section>
-        </section>
+        </script>
 
 	    <script src="https://cdn.jsdelivr.net/npm/vue">></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
