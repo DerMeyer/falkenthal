@@ -3,6 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "scripts": {
+      "start": "node index.js",
+      "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+      "node": "8.9.4"
+  },
   "dependencies": {
     "compression": "^1.7.3",
     "cookie-session": "^2.0.0-beta.3",
@@ -12,19 +19,11 @@
     "spiced-pg": "^1.0.0",
     "uid-safe": "^2.1.5"
   },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DerMeyer/falkenthal.git"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/DerMeyer/falkenthal/issues"
-  },
-  "homepage": "https://github.com/DerMeyer/falkenthal#readme"
+  "license": "ISC"
 }
