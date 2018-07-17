@@ -26,12 +26,14 @@
                     <router-link to="/contact">Kontakt</router-link>
                     <router-link to="/about">Über mich</router-link>
                 </section>
-                <div class="menu_target_blank">
+                <section class="menu_target_blank">
                     <a href="https://www.instagram.com/falkenthal_illustration/" target="_blank"><img src="insta.png" class="iconBlank"></a>
                     <a href="https://www.facebook.com/Falkenthal/" target="_blank"><img src="fb.svg" class="iconBlank"></a>
-                </div>
-                <h2 v-if="admin">{{ message }}</h2>
-                <button v-if="admin" @click="logout">Log out</button>
+                </section>
+                <section class="admin_menu">
+                    <h2 v-if="admin">{{ message }}</h2>
+                    <button v-if="admin" @click="logout">Log out</button>
+                </section>
             </header>
 
             <section class="container">
@@ -43,16 +45,28 @@
 
         <script id="projects" type="text/x-template">
             <section class="scroll_container">
-                <section v-if="admin" class="create_folder_container">
-                    <h2>{{ message }}</h2>
-                    <input type="text" placeholder="Name" v-model="name" @keydown="createfolder"></input>
-                    <input type="text" placeholder="Beschreibung" v-model="description" @keydown="createfolder"></input>
-                    <button @click="createfolder">Ordner erstellen</button>
-                </section>
                 <router-link :to="'/folder/' + element.id" v-for="element in folders" :key="element.id" class="folder">
                     <h2>{{ element.name }}</h2>
                     <img :src="element.image_url || 'images/b.jpg'" class="image">
+                    <section v-if="admin" class="admin_folder">
+                        <h2>Notiz:</h2>
+                        <p>{{ element.description }}</p>
+                        <section class="admin_folder_edit">
+                            <input :id="'newname' + element.id" type="text" placeholder="Neuer Name" v-model="newname" @click.stop.prevent="" @keydown="renamefolder"></input>
+                            <button :id="'prev' + element.id" @click.stop.prevent="prevposition"><=</button>
+                            <button :id="'delete' + element.id" @click.stop.prevent="confirmdelete">Löschen</button>
+                            <button :id="'next' + element.id" @click.stop.prevent="nextposition">=></button>
+                            <button v-if="confirm" :id="'confirm' + element.id" @click.stop.prevent="deletefolder" class="admin_folder_delete_btn">Ordner Löschen</button>
+                            <button v-if="confirm" :id="'cancel' + element.id" @click.stop.prevent="canceldelete" class="admin_folder_delete_btn">Lieber nicht</button>
+                        </section>
+                    </section>
                 </router-link>
+                <section v-if="admin" class="create_folder_container">
+                    <h2>{{ message }}</h2>
+                    <input type="text" placeholder="Name" v-model="name" @keydown="createfolder"></input>
+                    <input type="text" placeholder="Notiz" v-model="description" @keydown="createfolder"></input>
+                    <button @click="createfolder">Ordner erstellen</button>
+                </section>
             </section>
         </script>
 

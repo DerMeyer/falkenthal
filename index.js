@@ -86,8 +86,48 @@ app.post('/create_folder', async (req, res) => {
     }
     try {
         const result = await db.query(
-            'INSERT INTO folders (name, description) VALUES ($1, $2)',
-            [req.body.name, req.body.description]
+            'INSERT INTO folders (position, name, description) VALUES ($1, $2, $3)',
+            [req.body.position, req.body.name, req.body.description]
+        );
+        res.json({
+            success: true
+        });
+    } catch (err) {
+        console.log(err);
+        res.json({
+            success: false
+        });
+    }
+});
+
+app.post('/rename_folder', async (req, res) => {
+    if (!req.session.admin) {
+        res.end();
+    }
+    try {
+        const result = await db.query(
+            'UPDATE folders SET name = $1 WHERE id = $2',
+            [req.body.name, req.body.id]
+        );
+        res.json({
+            success: true
+        });
+    } catch (err) {
+        console.log(err);
+        res.json({
+            success: false
+        });
+    }
+});
+
+app.post('/delete_folder', async (req, res) => {
+    if (!req.session.admin) {
+        res.end();
+    }
+    try {
+        const result = await db.query(
+            'DELETE FROM folders WHERE id = $1',
+            [req.body.id]
         );
         res.json({
             success: true
@@ -103,7 +143,7 @@ app.post('/create_folder', async (req, res) => {
 app.get('/get_folders', async (req, res) => {
     try {
         const result = await db.query(
-            'SELECT * FROM folders'
+            'SELECT * FROM folders ORDER BY position DESC'
         );
         res.json({
             success: true,
