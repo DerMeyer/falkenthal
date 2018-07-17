@@ -51,12 +51,13 @@
                 const app = this;
                 axios
                     .post('/rename_folder', {
-                        id: event.target.id.slice(-1),
+                        id: event.target.id.slice(7),
                         name: this.newname
                     })
                     .then(function(resp) {
                         if (resp.data.success) {
                             app.getfolders();
+                            app.newname = '';
                         } else {
                             app.message = 'Da ist was schiefgelaufen .';
                         }
@@ -166,6 +167,7 @@
         template: '#login',
         data: function() {
             return {
+                timeoutID: '',
                 message: 'Hi Jens!',
                 pw: ''
             }
@@ -175,20 +177,27 @@
                 if (event.type !== 'click' && event.keyCode !== 13) {
                     return;
                 }
+                if (this.timeoutID) {
+                    window.clearTimeout(this.timeoutID);
+                }
                 const app = this;
-                axios
-                    .post('/login', { pw: this.pw })
-                    .then(function(resp) {
-                        if (resp.data.success) {
-                            window.location.replace('/');
-                        } else {
-                            app.message = 'Falsches Passwort .';
-                        }
-                    })
-                    .catch(function(err) {
-                        console.log(err);
-                        app.message = 'Der Server antwortet nicht .';
-                    });
+                this.timeoutID = window.setTimeout(function() {
+                    const appNxt = app;
+                    axios
+                        .post('/login', { pw: app.pw })
+                        .then(function(resp) {
+                            if (resp.data.success) {
+                                window.location.replace('/');
+                                appNxt.timeoutID = '';
+                            } else {
+                                appNxt.message = 'Falsches Passwort .';
+                            }
+                        })
+                        .catch(function(err) {
+                            console.log(err);
+                            appNxt.message = 'Der Server antwortet nicht .';
+                        });
+                }, 500);
             }
         }
     });
