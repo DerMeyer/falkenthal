@@ -1,10 +1,25 @@
 (function() {
 
-    Vue.component('folders', {
-        template: '#folders'
+    // components
+
+    const projects = Vue.extend({
+        template: '#projects'
     });
 
-    Vue.component('login', {
+    const folder = Vue.extend({
+        template: '#folder'
+    });
+
+    const contact = Vue.extend({
+        template: '#contact'
+    });
+
+    const about = Vue.extend({
+        template: '#about'
+    });
+
+    const login = Vue.extend({
+        template: '#login',
         data: function() {
             return {
                 message: 'Hi Jens!',
@@ -28,11 +43,20 @@
                     app.message = 'Der Server antwortet nicht .';
                 });
             },
-        },
-        template: '#login'
+        }
+    });
+
+    // app
+
+    const router = new VueRouter({
+        routes: [
+            { path: '/', component: projects },
+            { path: '/ichbinjens', component: login }
+        ]
     });
 
     const app = new Vue({
+        router: router,
         el: '#app',
         data: {
             message: 'Hi Jens!',
@@ -40,6 +64,8 @@
             home: window.location.pathname === '/' ? true : false
         },
         mounted: function() {
+            console.log(this.$router);
+            console.log(this.$route);
             const app = this;
             axios.get('/admin').then(function(resp) {
                 app.admin = resp.data.admin;
