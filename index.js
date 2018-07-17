@@ -85,7 +85,7 @@ app.post('/create_folder', async (req, res) => {
         res.end();
     }
     try {
-        const result = await db.query(
+        await db.query(
             'INSERT INTO folders (position, name, description) VALUES ($1, $2, $3)',
             [req.body.position, req.body.name, req.body.description]
         );
@@ -105,7 +105,7 @@ app.post('/rename_folder', async (req, res) => {
         res.end();
     }
     try {
-        const result = await db.query(
+        await db.query(
             'UPDATE folders SET name = $1 WHERE id = $2',
             [req.body.name, req.body.id]
         );
@@ -125,9 +125,33 @@ app.post('/delete_folder', async (req, res) => {
         res.end();
     }
     try {
-        const result = await db.query(
+        await db.query(
             'DELETE FROM folders WHERE id = $1',
             [req.body.id]
+        );
+        res.json({
+            success: true
+        });
+    } catch (err) {
+        console.log(err);
+        res.json({
+            success: false
+        });
+    }
+});
+
+app.post('/swap_folders', async (req, res) => {
+    if (!req.session.admin) {
+        res.end();
+    }
+    try {
+        await db.query(
+            'UPDATE folders SET position = $1 WHERE id = $2',
+            [req.body.position_two, req.body.id_one]
+        );
+        await db.query(
+            'UPDATE folders SET position = $1 WHERE id = $2',
+            [req.body.position_one, req.body.id_two]
         );
         res.json({
             success: true

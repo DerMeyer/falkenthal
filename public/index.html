@@ -45,6 +45,12 @@
 
         <script id="projects" type="text/x-template">
             <section class="scroll_container">
+                <section v-if="admin" class="create_folder_container">
+                    <h2>{{ message }}</h2>
+                    <input type="text" placeholder="Name" v-model="name" @keydown="createfolder"></input>
+                    <input type="text" placeholder="Notiz" v-model="description" @keydown="createfolder"></input>
+                    <button @click="createfolder">Ordner erstellen</button>
+                </section>
                 <router-link :to="'/folder/' + element.id" v-for="element in folders" :key="element.id" class="folder">
                     <h2>{{ element.name }}</h2>
                     <img :src="element.image_url || 'images/b.jpg'" class="image">
@@ -61,12 +67,6 @@
                         </section>
                     </section>
                 </router-link>
-                <section v-if="admin" class="create_folder_container">
-                    <h2>{{ message }}</h2>
-                    <input type="text" placeholder="Name" v-model="name" @keydown="createfolder"></input>
-                    <input type="text" placeholder="Notiz" v-model="description" @keydown="createfolder"></input>
-                    <button @click="createfolder">Ordner erstellen</button>
-                </section>
             </section>
         </script>
 

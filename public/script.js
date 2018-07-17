@@ -23,14 +23,14 @@
                 const app = this;
                 axios
                     .post('/create_folder', {
-                        position: this.folders.length + 1,
+                        position: this.folders.reduce(function(a, v) { return a > v.position ? a : v.position + 1 }, 0),
                         name: this.name,
                         description: this.description
                     })
                     .then(function(resp) {
                         if (resp.data.success) {
                             app.getfolders();
-                            app.message = app.name + ' wurde zu deinen Ordnern hinzugefügt .';
+                            app.message = app.name + ' wurde hinzugefügt .';
                             const appNxt = app;
                             setTimeout(function() {
                                 appNxt.message = 'Hier kannst du einen neuen Bilderordner erstellen .';
@@ -76,7 +76,7 @@
                 const app = this;
                 axios
                     .post('/delete_folder', {
-                        id: event.target.id.slice(-1)
+                        id: event.target.id.slice(7)
                     })
                     .then(function(resp) {
                         if (resp.data.success) {
@@ -92,10 +92,41 @@
                     });
             },
             prevposition: function(event) {
-                console.log(event.target);
+                const foldersToSwap = this.folders.filter(function(v, i, a) { return v.id == event.target.id.slice(4) || (a[i + 1] && a[i + 1].id == event.target.id.slice(4)) });
+                if (foldersToSwap.length < 2) {
+                    return;
+                } else {
+                    this.swapfolders(foldersToSwap);
+                }
             },
             nextposition: function(event) {
-                console.log(event.currentTarget);
+                const foldersToSwap = this.folders.filter(function(v, i, a) { return v.id == event.target.id.slice(4) || (a[i - 1] && a[i - 1].id == event.target.id.slice(4)) });
+                if (foldersToSwap.length < 2) {
+                    return;
+                } else {
+                    this.swapfolders(foldersToSwap);
+                }
+            },
+            swapfolders: function(foldersToSwap) {
+                const app = this;
+                axios
+                    .post('/swap_folders', {
+                        id_one: foldersToSwap[0].id,
+                        position_one: foldersToSwap[0].position,
+                        id_two: foldersToSwap[1].id,
+                        position_two: foldersToSwap[1].position
+                    })
+                    .then(function(resp) {
+                        if (resp.data.success) {
+                            app.getfolders();
+                        } else {
+                            app.message = 'Da ist was schiefgelaufen .';
+                        }
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                        app.message = 'Der Server antwortet nicht .';
+                    });
             },
             getfolders: function() {
                 const app = this;
@@ -103,7 +134,7 @@
                     .get('/get_folders')
                     .then(function(resp) {
                         if (resp.data.success) {
-                            app.folders = resp.data.folders.length > 0 ? resp.data.folders : [{ name: 'Keine Ordner' }]
+                            app.folders = resp.data.folders;
                         } else {
                             app.message = 'Da ist was schiefgelaufen .';
                         }
