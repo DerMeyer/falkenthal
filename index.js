@@ -80,6 +80,43 @@ app.post('/login', (req, res) => {
     }
 });
 
+app.post('/create_folder', async (req, res) => {
+    if (!req.session.admin) {
+        res.end();
+    }
+    try {
+        const result = await db.query(
+            'INSERT INTO folders (name, description) VALUES ($1, $2)',
+            [req.body.name, req.body.description]
+        );
+        res.json({
+            success: true
+        });
+    } catch (err) {
+        console.log(err);
+        res.json({
+            success: false
+        });
+    }
+});
+
+app.get('/get_folders', async (req, res) => {
+    try {
+        const result = await db.query(
+            'SELECT * FROM folders'
+        );
+        res.json({
+            success: true,
+            folders: result.rows
+        });
+    } catch (err) {
+        console.log(err);
+        res.json({
+            success: false
+        });
+    }
+});
+
 app.post('/upload_image', uploader.single('file'), s3upload, async (req, res) => {
     if (!req.session.admin) {
         res.end();

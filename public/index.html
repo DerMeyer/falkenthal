@@ -22,7 +22,7 @@
                     <h1>Illustration</h1>
                 </section>
                 <section class="menu_page">
-                    <router-link to="/">Projekte</router-link>
+                    <router-link to="/projects">Projekte</router-link>
                     <router-link to="/contact">Kontakt</router-link>
                     <router-link to="/about">Über mich</router-link>
                 </section>
@@ -35,7 +35,7 @@
             </header>
 
             <section class="container">
-                <router-view></router-view>
+                <router-view :admin="admin"></router-view>
             </section>
         </section>
 
@@ -43,21 +43,25 @@
 
         <script id="projects" type="text/x-template">
             <section class="scroll_container">
-                <img src="images/a.jpg" class="image">
-                <img src="images/b.jpg" class="image">
-                <img src="images/c.jpg" class="image">
-                <img src="images/d.jpg" class="image">
-                <img src="images/e.jpg" class="image">
-                <img src="images/f.jpg" class="image">
-                <img src="images/g.jpg" class="image">
-                <img src="images/h.jpg" class="image">
-                <img src="images/i.jpg" class="image">
+                <section v-if="admin" class="create_folder_container">
+                    <h2>{{ message }}</h2>
+                    <input type="text" placeholder="Name" v-model="name" @keydown="createfolder"></input>
+                    <input type="text" placeholder="Beschreibung" v-model="description" @keydown="createfolder"></input>
+                    <button @click="createfolder">Ordner erstellen</button>
+                </section>
+                <router-link :to="'/folder/' + element.id" v-for="element in folders" :key="element.id" class="folder">
+                    <h2>{{ element.name }}</h2>
+                    <img :src="element.image_url || 'images/b.jpg'" class="image">
+                </router-link>
             </section>
         </script>
 
         <script id="folder" type="text/x-template">
             <section class="scroll_container">
-                Folder!
+                <h1>{{ $route.params.id }}</h1>
+                <img src="images/b.jpg" class="image">
+                <img src="images/c.jpg" class="image">
+                <img src="images/d.jpg" class="image">
             </section>
         </script>
 

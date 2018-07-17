@@ -16,10 +16,12 @@ html {
 
 body {
     margin: 0;
+    color: rgb(95, 95, 95);
 }
 
 a {
     text-decoration: none;
+    color: rgb(95, 95, 95);
 }
 
 input {
@@ -28,6 +30,7 @@ input {
     text-align: center;
     height: 4vh;
     width: 30vw;
+    margin-bottom: 2vh;
 }
 
 button {
@@ -35,7 +38,7 @@ button {
     font-family: 'The Girl Next Door', cursive;
     font-size: 2vh;
     width: 10vw;
-    margin-top: 3vh;
+    margin-top: 2vh;
 }
 
 /* menu */
@@ -71,10 +74,6 @@ header h2 {
     padding-top: 2vh;
 }
 
-.headline h1, .menu_page a {
-    color: rgb(95, 95, 95);
-}
-
 .menu_page {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -91,6 +90,10 @@ header h2 {
 
 .menu_page p:hover {
     color: lightgray;
+}
+
+.router-link-active {
+    text-decoration: underline;
 }
 
 .menu_target_blank {
@@ -129,6 +132,19 @@ header h2 {
     padding: 8vh 0;
 }
 
+.folder {
+    justify-self: center;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.folder h2 {
+    font-size: 2.5vh;
+    margin: 1vh 0;
+}
+
 .image {
     justify-self: center;
     align-self: center;
@@ -149,4 +165,12 @@ header h2 {
 
 .login_container h2 {
     font-size: 3vh;
+}
+
+.create_folder_container {
+    grid-column: 1 / 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10vh;
 }

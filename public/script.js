@@ -3,7 +3,53 @@
     // components
 
     const projects = Vue.extend({
-        template: '#projects'
+        template: '#projects',
+        props: [ 'admin' ],
+        data: function() {
+            return {
+                message: 'Hier kannst du einen neuen Bilderordner erstellen .',
+                name: '',
+                description: '',
+                folders: []
+            }
+        },
+        methods: {
+            createfolder: function(event) {
+                if (event.type !== 'click' && event.keyCode !== 13) {
+                    return;
+                }
+                const app = this;
+                axios.post('/create_folder', {
+                    name: this.name,
+                    description: this.description
+                }).then(function(resp) {
+                    if (resp.data.success) {
+                        app.getfolders();
+                    } else {
+                        app.message = 'Da ist was schiefgelaufen .';
+                    }
+                }).catch(function(err) {
+                    console.log(err);
+                    app.message = 'Der Server antwortet nicht .';
+                });
+            },
+            getfolders: function() {
+                const app = this;
+                axios.get('/get_folders').then(function(resp) {
+                    if (resp.data.success) {
+                        app.folders = resp.data.folders.length > 0 ? resp.data.folders : [{ name: 'Keine Ordner' }]
+                    } else {
+                        app.message = 'Da ist was schiefgelaufen .';
+                    }
+                }).catch(function(err) {
+                    console.log(err);
+                    app.message = 'Der Server antwortet nicht .';
+                });
+            }
+        },
+        mounted: function() {
+            this.getfolders();
+        }
     });
 
     const folder = Vue.extend({
@@ -42,7 +88,7 @@
                     console.log(err);
                     app.message = 'Der Server antwortet nicht .';
                 });
-            },
+            }
         }
     });
 
@@ -50,8 +96,8 @@
 
     const router = new VueRouter({
         routes: [
-            { path: '/', component: projects },
-            { path: '/folder', component: folder },
+            { path: '/projects', component: projects },
+            { path: '/folder/:id', component: folder },
             { path: '/contact', component: contact },
             { path: '/about', component: about },
             { path: '/ichbinjens', component: login }
@@ -64,16 +110,6 @@
         data: {
             message: 'Hi Jens!',
             admin: false
-        },
-        mounted: function() {
-            console.log(this.$router);
-            console.log(this.$route);
-            const app = this;
-            axios.get('/admin').then(function(resp) {
-                app.admin = resp.data.admin;
-            }).catch(function(err) {
-                console.log(err);
-            });
         },
         methods: {
             logout: function() {
@@ -89,6 +125,15 @@
                     app.message = 'Der Server antwortet nicht .';
                 });
             }
+        },
+        mounted: function() {
+            this.$router.push('/projects')
+            const app = this;
+            axios.get('/admin').then(function(resp) {
+                app.admin = resp.data.admin;
+            }).catch(function(err) {
+                console.log(err);
+            });
         }
     });
 
