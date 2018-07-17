@@ -44,11 +44,9 @@ app.use(compression());
 const bp = require('body-parser');
 app.use(bp.json());
 
-app.get('/ichbinjens', (req, res) => res.sendFile(`${__dirname}/public/index.html`));
-
 app.use(express.static(`${__dirname}/public`));
 
-app.get('/admin', (req, res) => {
+app.get('/is_admin', (req, res) => {
     if (req.session.admin) {
         res.json({
             admin: true

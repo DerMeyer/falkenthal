@@ -36,7 +36,7 @@
                             app.name = '';
                             app.description = '';
                             const appNxt = app;
-                            setTimeout(function() {
+                            window.setTimeout(function() {
                                 appNxt.message = 'Hier kannst du einen neuen Bilderordner erstellen .';
                             }, 2000);
                         } else {
@@ -247,7 +247,7 @@
             this.$router.push('/projects');
             const app = this;
             axios
-                .get('/admin')
+                .get('/is_admin')
                 .then(function(resp) {
                     app.admin = resp.data.admin;
                 })
