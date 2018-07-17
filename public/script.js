@@ -2,9 +2,11 @@
 
     // components
 
-    const projects = Vue.extend({
-        template: '#projects',
-        props: [ 'admin' ],
+    const Projects = Vue.extend({
+        template: '#projects-template',
+        props: {
+            admin: Boolean
+        },
         data: function() {
             return {
                 message: 'Hier kannst du einen neuen Bilderordner erstellen .',
@@ -16,7 +18,7 @@
             }
         },
         methods: {
-            createfolder: function(event) {
+            $_projects_createfolder: function(event) {
                 if (event.type !== 'click' && event.keyCode !== 13) {
                     return;
                 }
@@ -29,8 +31,10 @@
                     })
                     .then(function(resp) {
                         if (resp.data.success) {
-                            app.getfolders();
+                            app.$_projects_getfolders();
                             app.message = app.name + ' wurde hinzugefügt .';
+                            app.name = '';
+                            app.description = '';
                             const appNxt = app;
                             setTimeout(function() {
                                 appNxt.message = 'Hier kannst du einen neuen Bilderordner erstellen .';
@@ -44,7 +48,7 @@
                         app.message = 'Der Server antwortet nicht .';
                     });
             },
-            renamefolder: function(event) {
+            $_projects_renamefolder: function(event) {
                 if (event.keyCode !== 13) {
                     return;
                 }
@@ -56,7 +60,7 @@
                     })
                     .then(function(resp) {
                         if (resp.data.success) {
-                            app.getfolders();
+                            app.$_projects_getfolders();
                             app.newname = '';
                         } else {
                             app.message = 'Da ist was schiefgelaufen .';
@@ -67,13 +71,13 @@
                         app.message = 'Der Server antwortet nicht .';
                     });
             },
-            confirmdelete: function() {
+            $_projects_confirmdelete: function() {
                 this.confirm = true;
             },
-            canceldelete: function() {
+            $_projects_canceldelete: function() {
                 this.confirm = false;
             },
-            deletefolder: function(event) {
+            $_projects_deletefolder: function(event) {
                 const app = this;
                 axios
                     .post('/delete_folder', {
@@ -81,8 +85,8 @@
                     })
                     .then(function(resp) {
                         if (resp.data.success) {
-                            app.canceldelete();
-                            app.getfolders();
+                            app.$_projects_canceldelete();
+                            app.$_projects_getfolders();
                         } else {
                             app.message = 'Da ist was schiefgelaufen .';
                         }
@@ -92,23 +96,23 @@
                         app.message = 'Der Server antwortet nicht .';
                     });
             },
-            prevposition: function(event) {
+            $_projects_prevposition: function(event) {
                 const foldersToSwap = this.folders.filter(function(v, i, a) { return v.id == event.target.id.slice(4) || (a[i + 1] && a[i + 1].id == event.target.id.slice(4)) });
                 if (foldersToSwap.length < 2) {
                     return;
                 } else {
-                    this.swapfolders(foldersToSwap);
+                    this.$_projects_swapfolders(foldersToSwap);
                 }
             },
-            nextposition: function(event) {
+            $_projects_nextposition: function(event) {
                 const foldersToSwap = this.folders.filter(function(v, i, a) { return v.id == event.target.id.slice(4) || (a[i - 1] && a[i - 1].id == event.target.id.slice(4)) });
                 if (foldersToSwap.length < 2) {
                     return;
                 } else {
-                    this.swapfolders(foldersToSwap);
+                    this.$_projects_swapfolders(foldersToSwap);
                 }
             },
-            swapfolders: function(foldersToSwap) {
+            $_projects_swapfolders: function(foldersToSwap) {
                 const app = this;
                 axios
                     .post('/swap_folders', {
@@ -119,7 +123,7 @@
                     })
                     .then(function(resp) {
                         if (resp.data.success) {
-                            app.getfolders();
+                            app.$_projects_getfolders();
                         } else {
                             app.message = 'Da ist was schiefgelaufen .';
                         }
@@ -129,7 +133,7 @@
                         app.message = 'Der Server antwortet nicht .';
                     });
             },
-            getfolders: function() {
+            $_projects_getfolders: function() {
                 const app = this;
                 axios
                     .get('/get_folders')
@@ -147,33 +151,33 @@
             }
         },
         mounted: function() {
-            this.getfolders();
+            this.$_projects_getfolders();
         }
     });
 
-    const folder = Vue.extend({
-        template: '#folder'
+    const Folder = Vue.extend({
+        template: '#folder-template'
     });
 
-    const contact = Vue.extend({
-        template: '#contact'
+    const Contact = Vue.extend({
+        template: '#contact-template'
     });
 
-    const about = Vue.extend({
-        template: '#about'
+    const About = Vue.extend({
+        template: '#about-template'
     });
 
-    const login = Vue.extend({
-        template: '#login',
+    const Admin = Vue.extend({
+        template: '#admin-template',
         data: function() {
             return {
-                timeoutID: '',
                 message: 'Hi Jens!',
-                pw: ''
+                pw: '',
+                timeoutID: ''
             }
         },
         methods: {
-            login: function(event) {
+            $_admin_login: function(event) {
                 if (event.type !== 'click' && event.keyCode !== 13) {
                     return;
                 }
@@ -206,11 +210,11 @@
 
     const router = new VueRouter({
         routes: [
-            { path: '/projects', component: projects },
-            { path: '/folder/:id', component: folder },
-            { path: '/contact', component: contact },
-            { path: '/about', component: about },
-            { path: '/ichbinjens', component: login }
+            { path: '/projects', component: Projects },
+            { path: '/folder/:id', component: Folder },
+            { path: '/contact', component: Contact },
+            { path: '/about', component: About },
+            { path: '/ichbinfalkenthal', component: Admin }
         ]
     });
 
@@ -222,7 +226,7 @@
             admin: false
         },
         methods: {
-            logout: function() {
+            $_app_logout: function() {
                 const app = this;
                 axios
                     .get('/logout')
