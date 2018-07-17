@@ -51,6 +51,9 @@
     const router = new VueRouter({
         routes: [
             { path: '/', component: projects },
+            { path: '/folder', component: folder },
+            { path: '/contact', component: contact },
+            { path: '/about', component: about },
             { path: '/ichbinjens', component: login }
         ]
     });
@@ -60,8 +63,7 @@
         el: '#app',
         data: {
             message: 'Hi Jens!',
-            admin: false,
-            home: window.location.pathname === '/' ? true : false
+            admin: false
         },
         mounted: function() {
             console.log(this.$router);
