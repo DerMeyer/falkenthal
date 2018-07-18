@@ -72,7 +72,6 @@
                     });
             },
             $_projects_confirmdelete: function() {
-                console.log(this.folders);
                 this.confirmDelete = true;
             },
             $_projects_canceldelete: function() {
@@ -190,13 +189,13 @@
                     app.previewImage = true;
                 });
             },
-            $_images_uploadimage: function(event) {
+            $_images_uploadImage: function(event) {
                 if (event.type !== 'click' && event.keyCode !== 13) {
                     return;
                 }
                 if (this.selectedImage.file) {
                     const formData = new FormData;
-                    formData.append('folder_id', event.target.id.slice(3));
+                    formData.append('folder_id', this.$route.params.id);
                     formData.append('file', this.selectedImage.file);
                     formData.append('description', this.description);
                     const app = this;
@@ -204,7 +203,6 @@
                         .post('/upload_image', formData)
                         .then(function(resp) {
                             if (resp.data.success) {
-                                app.$_images_getimages();
                                 app.message = 'Erfolg !';
                                 app.previewImage = false;
                                 app.selectedImage = {};
@@ -212,6 +210,7 @@
                                 const appNxt = app;
                                 window.setTimeout(function() {
                                     appNxt.message = 'Hier kannst du ein neues Bild hochladen .';
+                                    appNxt.$_images_getImages();
                                 }, 2000);
                             } else {
                                 app.message = resp.data.message;
@@ -230,7 +229,30 @@
                     }, 2000);
                 }
             },
-            $_images_changeimagefolder: function(event) {
+            $_images_setTitleImage: function(event) {
+                const app = this;
+                axios
+                    .post('/set_title_image', {
+                        id: event.target.id.slice(5),
+                        folder_id: this.$route.params.id
+                    })
+                    .then(function(resp) {
+                        if (resp.data.success) {
+                            app.message = 'Erfolg !';
+                            const appNxt = app;
+                            window.setTimeout(function() {
+                                appNxt.message = 'Hier kannst du ein neues Bild hochladen .';
+                            }, 2000);
+                        } else {
+                            app.message = 'Da ist was schiefgelaufen .';
+                        }
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                        app.message = 'Der Server antwortet nicht .';
+                    });
+            },
+            $_images_changeImageFolder: function(event) {
                 if (event.keyCode !== 13) {
                     return;
                 }
@@ -242,10 +264,15 @@
                     })
                     .then(function(resp) {
                         if (resp.data.success) {
-                            app.$_images_getimages();
+                            app.$_images_getImages();
                             app.newfolder = '';
                         } else {
-                            app.message = 'Da ist was schiefgelaufen .';
+                            app.message = 'Diesen Ordner gibt es nicht .';
+                            app.newfolder = '';
+                            const appNxt = app;
+                            window.setTimeout(function() {
+                                appNxt.message = 'Hier kannst du ein neues Bild hochladen .';
+                            }, 2000);
                         }
                     })
                     .catch(function(err) {
@@ -253,13 +280,13 @@
                         app.message = 'Der Server antwortet nicht .';
                     });
             },
-            $_images_confirmdelete: function() {
+            $_images_confirmDelete: function() {
                 this.confirmDelete = true;
             },
-            $_images_canceldelete: function() {
+            $_images_cancelDelete: function() {
                 this.confirmDelete = false;
             },
-            $_images_deleteimage: function(event) {
+            $_images_deleteImage: function(event) {
                 const app = this;
                 axios
                     .post('/delete_image', {
@@ -267,8 +294,8 @@
                     })
                     .then(function(resp) {
                         if (resp.data.success) {
-                            app.$_images_canceldelete();
-                            app.$_images_getimages();
+                            app.$_images_cancelDelete();
+                            app.$_images_getImages();
                         } else {
                             app.message = 'Da ist was schiefgelaufen .';
                         }
@@ -278,23 +305,23 @@
                         app.message = 'Der Server antwortet nicht .';
                     });
             },
-            $_images_prevposition: function(event) {
+            $_images_prevPosition: function(event) {
                 const imagesToSwap = this.images.filter(function(v, i, a) { return v.id == event.target.id.slice(4) || (a[i + 1] && a[i + 1].id == event.target.id.slice(4)) });
-                if (foldersToSwap.length < 2) {
+                if (imagesToSwap.length < 2) {
                     return;
                 } else {
-                    this.$_images_swapimages(imagesToSwap);
+                    this.$_images_swapImages(imagesToSwap);
                 }
             },
-            $_images_nextposition: function(event) {
+            $_images_nextPosition: function(event) {
                 const imagesToSwap = this.images.filter(function(v, i, a) { return v.id == event.target.id.slice(4) || (a[i - 1] && a[i - 1].id == event.target.id.slice(4)) });
-                if (foldersToSwap.length < 2) {
+                if (imagesToSwap.length < 2) {
                     return;
                 } else {
-                    this.$_images_swapimages(imagesToSwap);
+                    this.$_images_swapImages(imagesToSwap);
                 }
             },
-            $_images_swapimages: function(imagesToSwap) {
+            $_images_swapImages: function(imagesToSwap) {
                 const app = this;
                 axios
                     .post('/swap_images', {
@@ -305,7 +332,7 @@
                     })
                     .then(function(resp) {
                         if (resp.data.success) {
-                            app.$_images_getimages();
+                            app.$_images_getImages();
                         } else {
                             app.message = 'Da ist was schiefgelaufen .';
                         }
@@ -315,7 +342,7 @@
                         app.message = 'Der Server antwortet nicht .';
                     });
             },
-            $_images_getimages: function() {
+            $_images_getImages: function() {
                 const app = this;
                 axios
                     .post('/get_images', {
@@ -323,7 +350,6 @@
                     })
                     .then(function(resp) {
                         if (resp.data.success) {
-                            console.log(resp.data.images);
                             app.images = resp.data.images;
                         } else {
                             app.message = 'Da ist was schiefgelaufen .';
@@ -336,7 +362,7 @@
             }
         },
         mounted: function() {
-            this.$_images_getimages();
+            this.$_images_getImages();
         }
     });
 

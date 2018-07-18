@@ -49,22 +49,6 @@
 
         <script id="projects-template" type="text/x-template">
             <section class="scroll_container">
-                <section v-if="admin" class="admin_create_container">
-                    <h2>{{ message }}</h2>
-                    <input
-                        type="text"
-                        placeholder="Name"
-                        v-model="name"
-                        @keydown="$_projects_createfolder"
-                    ></input>
-                    <input
-                        type="text"
-                        placeholder="Private Notiz"
-                        v-model="description"
-                        @keydown="$_projects_createfolder"
-                    ></input>
-                    <button @click="$_projects_createfolder">Ordner erstellen</button>
-                </section>
                 <router-link
                     :to="'/images/' + element.id"
                     v-for="element in folders"
@@ -85,9 +69,21 @@
                                 @click.stop.prevent=""
                                 @keydown="$_projects_renamefolder"
                             ></input>
-                            <button :id="'prev' + element.id" @click.stop.prevent="$_projects_prevposition"><=</button>
-                            <button :id="'delete' + element.id" @click.stop.prevent="$_projects_confirmdelete">Löschen</button>
-                            <button :id="'next' + element.id" @click.stop.prevent="$_projects_nextposition">=></button>
+                            <button
+                                v-if="!confirmDelete"
+                                :id="'prev' + element.id"
+                                @click.stop.prevent="$_projects_prevposition"
+                            ><=</button>
+                            <button
+                                v-if="!confirmDelete"
+                                :id="'delete' + element.id"
+                                @click.stop.prevent="$_projects_confirmdelete"
+                            >Löschen</button>
+                            <button
+                                v-if="!confirmDelete"
+                                :id="'next' + element.id"
+                                @click.stop.prevent="$_projects_nextposition"
+                            >=></button>
                             <button
                                 v-if="confirmDelete"
                                 :id="'confirm' + element.id"
@@ -103,6 +99,22 @@
                         </section>
                     </section>
                 </router-link>
+                <section v-if="admin" class="admin_create_container">
+                    <h2>{{ message }}</h2>
+                    <input
+                        type="text"
+                        placeholder="Name"
+                        v-model="name"
+                        @keydown="$_projects_createfolder"
+                    ></input>
+                    <input
+                        type="text"
+                        placeholder="Private Notiz"
+                        v-model="description"
+                        @keydown="$_projects_createfolder"
+                    ></input>
+                    <button @click="$_projects_createfolder">Ordner erstellen</button>
+                </section>
             </section>
         </script>
 
@@ -110,29 +122,6 @@
 
         <script id="images-template" type="text/x-template">
             <section class="scroll_container">
-                <section v-if="admin" class="admin_create_container">
-                    <h2>{{ message }}</h2>
-                    <input
-                        :id="'ipt' + $route.params.id"
-                        type="text"
-                        placeholder="Private Notiz"
-                        v-model="description"
-                        @keydown="$_images_uploadimage"
-                    ></input>
-                    <img
-                        v-if="previewImage"
-                        :src="selectedImage.url"
-                        alt="Image Preview"
-                    >
-                    <input
-                        id="fileInput"
-                        type="file"
-                        name="imageforupload"
-                        @change="$_images_createFileReader"
-                    ></input>
-                    <label for="fileInput">Bild auswählen</label>
-                    <button :id="'btn' + $route.params.id" @click="$_images_uploadimage">Bild hochladen</button>
-                </section>
                 <section
                     v-for="element in images"
                     :key="element.id"
@@ -146,28 +135,68 @@
                             <input
                                 :id="'newfolder' + element.id"
                                 type="text"
-                                placeholder="Neuer Ordner"
+                                placeholder="Ordner wechseln"
                                 v-model="newfolder"
                                 @click.stop.prevent=""
-                                @keydown="$_images_changeimagefolder"
+                                @keydown="$_images_changeImageFolder"
                             ></input>
-                            <button :id="'prev' + element.id" @click.stop.prevent="$_images_prevposition"><=</button>
-                            <button :id="'delete' + element.id" @click.stop.prevent="$_images_confirmdelete">Löschen</button>
-                            <button :id="'next' + element.id" @click.stop.prevent="$_images_nextposition">=></button>
+                            <button
+                                :id="'title' + element.id"
+                                @click.stop.prevent="$_images_setTitleImage"
+                                class="admin_item_title_btn"
+                            >Titelbild</button>
+                            <button
+                                v-if="!confirmDelete"
+                                :id="'prev' + element.id"
+                                @click.stop.prevent="$_images_prevPosition"
+                            ><=</button>
+                            <button
+                                v-if="!confirmDelete"
+                                :id="'delete' + element.id"
+                                @click.stop.prevent="$_images_confirmDelete"
+                            >Löschen</button>
+                            <button
+                                v-if="!confirmDelete"
+                                :id="'next' + element.id"
+                                @click.stop.prevent="$_images_nextPosition"
+                            >=></button>
                             <button
                                 v-if="confirmDelete"
                                 :id="'confirm' + element.id"
-                                @click.stop.prevent="$_images_deleteimage"
+                                @click.stop.prevent="$_images_deleteImage"
                                 class="admin_item_delete_btn"
                             >Bild Löschen</button>
                             <button
                                 v-if="confirmDelete"
                                 :id="'cancel' + element.id"
-                                @click.stop.prevent="$_images_canceldelete"
+                                @click.stop.prevent="$_images_cancelDelete"
                                 class="admin_item_delete_btn"
                             >Lieber nicht</button>
                         </section>
                     </section>
+                </section>
+                <section v-if="admin" class="admin_create_container">
+                    <h2>{{ message }}</h2>
+                    <input
+                        :id="'ipt' + $route.params.id"
+                        type="text"
+                        placeholder="Private Notiz"
+                        v-model="description"
+                        @keydown="$_images_uploadImage"
+                    ></input>
+                    <img
+                        v-if="previewImage"
+                        :src="selectedImage.url"
+                        alt="Image Preview"
+                    >
+                    <input
+                        id="fileInput"
+                        type="file"
+                        name="imageforupload"
+                        @change="$_images_createFileReader"
+                    ></input>
+                    <label for="fileInput">Auswählen</label>
+                    <button @click="$_images_uploadImage">Hochladen</button>
                 </section>
             </section>
         </script>

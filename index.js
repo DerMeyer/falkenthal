@@ -179,6 +179,30 @@ app.get('/get_folders', async (req, res) => {
     }
 });
 
+app.post('/set_title_image', async (req, res) => {
+    if (!req.session.admin) {
+        res.end();
+    }
+    try {
+        const result = await db.query(
+            'SELECT url FROM images WHERE id = $1',
+            [req.body.id]
+        );
+        await db.query(
+            'UPDATE folders SET title_image_url = $1 WHERE id = $2',
+            [result.rows[0].url, req.body.folder_id]
+        );
+        res.json({
+            success: true
+        });
+    } catch (err) {
+        console.log(err);
+        res.json({
+            success: false
+        });
+    }
+});
+
 app.post('/upload_image', uploader.single('file'), s3upload, async (req, res) => {
     if (!req.session.admin) {
         res.end();

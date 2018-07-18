@@ -249,3 +249,7 @@ button.admin_item_delete_btn {
     width: 17vh;
     color: red;
 }
+
+button.admin_item_title_btn {
+    width: 35vh;
+}
