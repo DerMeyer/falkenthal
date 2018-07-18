@@ -34,9 +34,9 @@
                         <img src="fb.svg" class="iconBlank">
                     </a>
                 </section>
-                <section class="admin_menu">
-                    <h2 v-if="admin">{{ message }}</h2>
-                    <button v-if="admin" @click="$_app_logout">Log out</button>
+                <section v-if="admin" class="admin_menu">
+                    <h2>{{ message }}</h2>
+                    <button @click="$_app_logout">Log out</button>
                 </section>
             </header>
 
@@ -66,7 +66,7 @@
                     <button @click="$_projects_createfolder">Ordner erstellen</button>
                 </section>
                 <router-link
-                    :to="'/folder/' + element.id"
+                    :to="'/images/' + element.id"
                     v-for="element in folders"
                     :key="element.id"
                     class="scroll_container_item"

@@ -411,7 +411,7 @@
     const router = new VueRouter({
         routes: [
             { path: '/projects', component: Projects },
-            { path: '/folder/:id', component: Folder },
+            { path: '/images/:id', component: Images },
             { path: '/contact', component: Contact },
             { path: '/about', component: About },
             { path: '/ichbinfalkenthal', component: Admin }
@@ -422,7 +422,7 @@
         router: router,
         el: '#app',
         data: {
-            message: 'Hi Jens!',
+            message: 'Hi Jens !',
             admin: false
         },
         methods: {

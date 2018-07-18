@@ -163,9 +163,6 @@ app.post('/swap_folders', async (req, res) => {
 });
 
 app.get('/get_folders', async (req, res) => {
-    if (!req.session.admin) {
-        res.end();
-    }
     try {
         const result = await db.query(
             'SELECT * FROM folders ORDER BY position DESC'
@@ -287,9 +284,6 @@ app.post('/swap_images', async (req, res) => {
 });
 
 app.post('/get_images', async (req, res) => {
-    if (!req.session.admin) {
-        res.end();
-    }
     try {
         const result = await db.query(
             'SELECT * FROM images WHERE folder_id = $1 ORDER BY position DESC',
