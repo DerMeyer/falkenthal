@@ -10,7 +10,7 @@
         data: function() {
             return {
                 message: 'Hier kannst du einen neuen Bilderordner erstellen .',
-                confirm: false,
+                confirmDelete: false,
                 name: '',
                 description: '',
                 newname: '',
@@ -72,10 +72,11 @@
                     });
             },
             $_projects_confirmdelete: function() {
-                this.confirm = true;
+                console.log(this.folders);
+                this.confirmDelete = true;
             },
             $_projects_canceldelete: function() {
-                this.confirm = false;
+                this.confirmDelete = false;
             },
             $_projects_deletefolder: function(event) {
                 const app = this;
@@ -165,15 +166,69 @@
         data: function() {
             return {
                 message: 'Hier kannst du ein neues Bild hochladen .',
-                confirm: false,
+                previewImage: false,
+                confirmDelete: false,
+                selectedImage: {},
                 description: '',
                 newfolder: '',
                 images: []
             }
         },
         methods: {
-            $_images_uploadimage: function() {
+            $_images_createFileReader: function(event) {
+                if (!event.target.files[0]) {
+                    return;
+                }
+                const selectedImage = new FileReader();
+                selectedImage.readAsDataURL(event.target.files[0]);
+                const app = this;
+                selectedImage.addEventListener('load', function() {
+                    app.selectedImage = {
+                        url: selectedImage.result,
+                        file: event.target.files[0]
+                    };
+                    app.previewImage = true;
+                });
+            },
+            $_images_uploadimage: function(event) {
+                if (event.type !== 'click' && event.keyCode !== 13) {
+                    return;
+                }
+                if (this.selectedImage.file) {
+                    const formData = new FormData;
+                    formData.append('folder_id', event.target.id.slice(3));
+                    formData.append('file', this.selectedImage.file);
+                    formData.append('description', this.description);
+                    const app = this;
+                    axios
+                        .post('/upload_image', formData)
+                        .then(function(resp) {
+                            if (resp.data.success) {
+                                app.$_images_getimages();
+                                app.message = 'Erfolg !';
+                                app.previewImage = false;
+                                app.selectedImage = {};
+                                app.description = '';
+                                const appNxt = app;
+                                window.setTimeout(function() {
+                                    appNxt.message = 'Hier kannst du ein neues Bild hochladen .';
+                                }, 2000);
+                            } else {
+                                app.message = resp.data.message;
+                            }
+                        })
+                        .catch(function(err) {
+                            console.log(err);
+                            app.message = 'Der Server antwortet nicht .';
+                        });
 
+                } else {
+                    this.message = 'Es scheint kein Bild ausgewählt zu sein .';
+                    const app = this;
+                    window.setTimeout(function() {
+                        app.message = 'Hier kannst du ein neues Bild hochladen .';
+                    }, 2000);
+                }
             },
             $_images_changeimagefolder: function(event) {
                 if (event.keyCode !== 13) {
@@ -199,10 +254,10 @@
                     });
             },
             $_images_confirmdelete: function() {
-                this.confirm = true;
+                this.confirmDelete = true;
             },
             $_images_canceldelete: function() {
-                this.confirm = false;
+                this.confirmDelete = false;
             },
             $_images_deleteimage: function(event) {
                 const app = this;
@@ -295,7 +350,7 @@
         data: function() {
             return {
                 message: 'Hier kannst du einen neuen Bilderordner erstellen .',
-                confirm: false,
+                confirmDelete: false,
                 name: '',
                 description: '',
                 newname: '',
@@ -335,7 +390,7 @@
         data: function() {
             return {
                 message: 'Hier kannst du einen neuen Bilderordner erstellen .',
-                confirm: false,
+                confirmDelete: false,
                 name: '',
                 description: '',
                 newname: '',
@@ -369,6 +424,9 @@
 
     const Admin = Vue.extend({
         template: '#admin-template',
+        props: {
+            admin: Boolean
+        },
         data: function() {
             return {
                 message: 'Hi Jens!',
@@ -402,6 +460,11 @@
                             appNxt.message = 'Der Server antwortet nicht .';
                         });
                 }, 500);
+            }
+        },
+        mounted: function() {
+            if (this.admin) {
+                this.$router.push('/projects');
             }
         }
     });

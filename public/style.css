@@ -33,6 +33,16 @@ input {
     margin-bottom: 2vh;
 }
 
+label {
+    cursor: pointer;
+    font-size: 2vh;
+    text-align: center;
+    width: 10vw;
+    border: .1vh solid gray;
+    margin-top: 2vh;
+    background-color: whitesmoke;
+}
+
 button {
     cursor: pointer;
     font-family: 'The Girl Next Door', cursive;
@@ -41,14 +51,15 @@ button {
     margin-top: 2vh;
 }
 
-/* menu */
-
-header, .headline, .menu_target_blank {
-    display: flex;
+.router-link-active {
+    text-decoration: underline;
 }
+
+/* menu */
 
 header {
     position: relative;
+    display: flex;
     flex-direction: column;
     align-items: center;
     width: 100vw;
@@ -60,19 +71,20 @@ header h2 {
 }
 
 .headline {
+    display: flex;
     align-items: center;
     margin-top: 6vh;
-}
-
-.headline img {
-    height: 15vh;
-    margin: 0 2vw;
 }
 
 .headline h1 {
     font-size: 5vh;
     font-weight: 400;
     padding-top: 2vh;
+}
+
+.headline img {
+    height: 15vh;
+    margin: 0 2vw;
 }
 
 .menu_page {
@@ -94,18 +106,9 @@ header h2 {
     color: lightgray;
 }
 
-.router-link-active {
-    text-decoration: underline;
-}
-
 .menu_target_blank {
+    display: flex;
     margin-top: 4vh;
-}
-
-.menu_target_blank img {
-    height: 4vh;
-    margin: .5vh;
-    opacity: .3;
 }
 
 .menu_target_blank a {
@@ -117,9 +120,15 @@ header h2 {
     opacity: .6;
 }
 
+.menu_target_blank img {
+    height: 4vh;
+    margin: .5vh;
+    opacity: .3;
+}
+
 /* content */
 
-.container {
+.content_container {
     display: flex;
     justify-content: center;
     width: 100vw;
@@ -178,12 +187,21 @@ header h2 {
     font-size: 3vh;
 }
 
-.create_folder_container {
+.admin_create_container {
     grid-column: 1 / 4;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 10vh;
+}
+
+.admin_create_container img {
+    max-height: 40vh;
+    max-width: 25vw;
+}
+
+#fileInput {
+    display: none;
 }
 
 .admin_item {

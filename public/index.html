@@ -18,7 +18,7 @@
             <header>
                 <section class="headline">
                     <h1>Falkenthal</h1>
-                    <img src="icon.png" alt="icon">
+                    <img src="icon.png" alt="Logo">
                     <h1>Illustration</h1>
                 </section>
                 <section class="menu_page">
@@ -28,10 +28,10 @@
                 </section>
                 <section class="menu_target_blank">
                     <a href="https://www.instagram.com/falkenthal_illustration/" target="_blank">
-                        <img src="insta.png" class="iconBlank">
+                        <img src="insta.png">
                     </a>
                     <a href="https://www.facebook.com/Falkenthal/" target="_blank">
-                        <img src="fb.svg" class="iconBlank">
+                        <img src="fb.svg">
                     </a>
                 </section>
                 <section v-if="admin" class="admin_menu">
@@ -40,16 +40,16 @@
                 </section>
             </header>
 
-            <section class="container">
+            <section class="content_container">
                 <router-view :admin="admin"></router-view>
             </section>
         </section>
 
-        <!-- templates -->
+        <!-- projects template -->
 
         <script id="projects-template" type="text/x-template">
             <section class="scroll_container">
-                <section v-if="admin" class="create_folder_container">
+                <section v-if="admin" class="admin_create_container">
                     <h2>{{ message }}</h2>
                     <input
                         type="text"
@@ -72,7 +72,7 @@
                     class="scroll_container_item"
                     >
                     <h2>{{ element.name }}</h2>
-                    <img :src="element.image_url || 'default_image.jpg'" alt="Folder">
+                    <img :src="element.title_image_url || 'default_image.jpg'" alt="Folder">
                     <section v-if="admin" class="admin_item">
                         <h2>{{ element.created_at.slice(0, 10) }}</h2>
                         <p>{{ element.description }}</p>
@@ -89,13 +89,13 @@
                             <button :id="'delete' + element.id" @click.stop.prevent="$_projects_confirmdelete">Löschen</button>
                             <button :id="'next' + element.id" @click.stop.prevent="$_projects_nextposition">=></button>
                             <button
-                                v-if="confirm"
+                                v-if="confirmDelete"
                                 :id="'confirm' + element.id"
                                 @click.stop.prevent="$_projects_deletefolder"
                                 class="admin_item_delete_btn"
                             >Ordner Löschen</button>
                             <button
-                                v-if="confirm"
+                                v-if="confirmDelete"
                                 :id="'cancel' + element.id"
                                 @click.stop.prevent="$_projects_canceldelete"
                                 class="admin_item_delete_btn"
@@ -106,8 +106,33 @@
             </section>
         </script>
 
+        <!-- images template -->
+
         <script id="images-template" type="text/x-template">
             <section class="scroll_container">
+                <section v-if="admin" class="admin_create_container">
+                    <h2>{{ message }}</h2>
+                    <input
+                        :id="'ipt' + $route.params.id"
+                        type="text"
+                        placeholder="Private Notiz"
+                        v-model="description"
+                        @keydown="$_images_uploadimage"
+                    ></input>
+                    <img
+                        v-if="previewImage"
+                        :src="selectedImage.url"
+                        alt="Image Preview"
+                    >
+                    <input
+                        id="fileInput"
+                        type="file"
+                        name="imageforupload"
+                        @change="$_images_createFileReader"
+                    ></input>
+                    <label for="fileInput">Bild auswählen</label>
+                    <button :id="'btn' + $route.params.id" @click="$_images_uploadimage">Bild hochladen</button>
+                </section>
                 <section
                     v-for="element in images"
                     :key="element.id"
@@ -130,13 +155,13 @@
                             <button :id="'delete' + element.id" @click.stop.prevent="$_images_confirmdelete">Löschen</button>
                             <button :id="'next' + element.id" @click.stop.prevent="$_images_nextposition">=></button>
                             <button
-                                v-if="confirm"
+                                v-if="confirmDelete"
                                 :id="'confirm' + element.id"
                                 @click.stop.prevent="$_images_deleteimage"
                                 class="admin_item_delete_btn"
                             >Bild Löschen</button>
                             <button
-                                v-if="confirm"
+                                v-if="confirmDelete"
                                 :id="'cancel' + element.id"
                                 @click.stop.prevent="$_images_canceldelete"
                                 class="admin_item_delete_btn"
@@ -147,17 +172,23 @@
             </section>
         </script>
 
+        <!-- contact template -->
+
         <script id="contact-template" type="text/x-template">
             <section class="scroll_container">
                 Contact!
             </section>
         </script>
 
+        <!-- about template -->
+
         <script id="about-template" type="text/x-template">
             <section class="scroll_container">
                 About!
             </section>
         </script>
+
+        <!-- admin template -->
 
         <script id="admin-template" type="text/x-template">
             <section class="admin_container">

@@ -185,20 +185,27 @@ app.post('/upload_image', uploader.single('file'), s3upload, async (req, res) =>
     }
     if (req.file) {
         try {
-            const url = `${s3url}${req.file.filename}`;
-            const result = await db.query(
-                'INSERT INTO images (folder_id, url, name, description) VALUES ($1, $2, $3, $4) RETURNING *',
-                [req.body.folder_id, url, req.body.name, req.body.description]
+            const url = `${s3Url}${req.file.filename}`;
+            const maxPosition = await db.query(
+                'SELECT MAX(position) FROM images'
             );
-            if (req.body.is_title_img) {
+            const position = maxPosition.rows[0].max + 1 || 1;
+            await db.query(
+                'INSERT INTO images (position, folder_id, url, description) VALUES ($1, $2, $3, $4)',
+                [position, req.body.folder_id, url, req.body.description]
+            );
+            const hasTitleImage = await db.query(
+                'SELECT title_image_url FROM folders WHERE id = $1',
+                [req.body.folder_id]
+            );
+            if (!hasTitleImage.rows[0].title_image_url) {
                 await db.query(
-                    'UPDATE folders SET title_img_url = $1 WHERE id = $2',
+                    'UPDATE folders SET title_image_url = $1 WHERE id = $2',
                     [url, req.body.folder_id]
                 );
             }
             res.json({
-                success: true,
-                image: result.rows[0]
+                success: true
             });
         } catch (err) {
             console.log(err);
@@ -210,7 +217,7 @@ app.post('/upload_image', uploader.single('file'), s3upload, async (req, res) =>
     } else {
         res.json({
             success: false,
-            message: 'Sieht aus, als ob das Bild zu groß wär. Bist du unter 4MB?'
+            message: 'Sieht aus, als ob das Bild zu groß wär. Bist du unter 4MB? '
         });
     }
 });

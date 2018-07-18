@@ -6,6 +6,5 @@ CREATE TABLE images(
     position INTEGER,
     folder_id INTEGER NOT NULL,
     url VARCHAR(511) NOT NULL,
-    name VARCHAR(255),
     description TEXT
 );
