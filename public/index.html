@@ -69,14 +69,14 @@
                     :to="'/folder/' + element.id"
                     v-for="element in folders"
                     :key="element.id"
-                    class="folder"
+                    class="scroll_container_item"
                     >
                     <h2>{{ element.name }}</h2>
                     <img :src="element.image_url || 'default_image.jpg'" alt="Folder">
-                    <section v-if="admin" class="admin_folder">
-                        <h2>Notiz:</h2>
+                    <section v-if="admin" class="admin_item">
+                        <h2>{{ element.created_at.slice(0, 10) }}</h2>
                         <p>{{ element.description }}</p>
-                        <section class="admin_folder_edit">
+                        <section class="admin_item_edit">
                             <input
                                 :id="'newname' + element.id"
                                 type="text"
@@ -92,13 +92,13 @@
                                 v-if="confirm"
                                 :id="'confirm' + element.id"
                                 @click.stop.prevent="$_projects_deletefolder"
-                                class="admin_folder_delete_btn"
+                                class="admin_item_delete_btn"
                             >Ordner Löschen</button>
                             <button
                                 v-if="confirm"
                                 :id="'cancel' + element.id"
                                 @click.stop.prevent="$_projects_canceldelete"
-                                class="admin_folder_delete_btn"
+                                class="admin_item_delete_btn"
                             >Lieber nicht</button>
                         </section>
                     </section>
@@ -106,10 +106,44 @@
             </section>
         </script>
 
-        <script id="folder-template" type="text/x-template">
+        <script id="images-template" type="text/x-template">
             <section class="scroll_container">
-                <h1>{{ $route.params.id }}</h1>
-                <img src="default_image.jpg" class="image">
+                <section
+                    v-for="element in images"
+                    :key="element.id"
+                    class="scroll_container_item"
+                    >
+                    <img :src="element.url" alt="Image">
+                    <section v-if="admin" class="admin_item">
+                        <h2>{{ element.created_at.slice(0, 10) }}</h2>
+                        <p>{{ element.description }}</p>
+                        <section class="admin_item_edit">
+                            <input
+                                :id="'newfolder' + element.id"
+                                type="text"
+                                placeholder="Neuer Ordner"
+                                v-model="newfolder"
+                                @click.stop.prevent=""
+                                @keydown="$_images_changeimagefolder"
+                            ></input>
+                            <button :id="'prev' + element.id" @click.stop.prevent="$_images_prevposition"><=</button>
+                            <button :id="'delete' + element.id" @click.stop.prevent="$_images_confirmdelete">Löschen</button>
+                            <button :id="'next' + element.id" @click.stop.prevent="$_images_nextposition">=></button>
+                            <button
+                                v-if="confirm"
+                                :id="'confirm' + element.id"
+                                @click.stop.prevent="$_images_deleteimage"
+                                class="admin_item_delete_btn"
+                            >Bild Löschen</button>
+                            <button
+                                v-if="confirm"
+                                :id="'cancel' + element.id"
+                                @click.stop.prevent="$_images_canceldelete"
+                                class="admin_item_delete_btn"
+                            >Lieber nicht</button>
+                        </section>
+                    </section>
+                </section>
             </section>
         </script>
 

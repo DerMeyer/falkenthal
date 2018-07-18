@@ -163,6 +163,9 @@ app.post('/swap_folders', async (req, res) => {
 });
 
 app.get('/get_folders', async (req, res) => {
+    if (!req.session.admin) {
+        res.end();
+    }
     try {
         const result = await db.query(
             'SELECT * FROM folders ORDER BY position DESC'
@@ -211,6 +214,95 @@ app.post('/upload_image', uploader.single('file'), s3upload, async (req, res) =>
         res.json({
             success: false,
             message: 'Sieht aus, als ob das Bild zu groß wär. Bist du unter 4MB?'
+        });
+    }
+});
+
+app.post('/change_image_folder', async (req, res) => {
+    if (!req.session.admin) {
+        res.end();
+    }
+    try {
+        const result = await db.query(
+            'SELECT id FROM folders WHERE name = $1',
+            [req.body.name]
+        );
+        await db.query(
+            'UPDATE images SET folder_id = $1 WHERE id = $2',
+            [result.rows[0].id, req.body.id]
+        );
+        res.json({
+            success: true
+        });
+    } catch (err) {
+        console.log(err);
+        res.json({
+            success: false
+        });
+    }
+});
+
+app.post('/delete_image', async (req, res) => {
+    if (!req.session.admin) {
+        res.end();
+    }
+    try {
+        await db.query(
+            'DELETE FROM images WHERE id = $1',
+            [req.body.id]
+        );
+        res.json({
+            success: true
+        });
+    } catch (err) {
+        console.log(err);
+        res.json({
+            success: false
+        });
+    }
+});
+
+app.post('/swap_images', async (req, res) => {
+    if (!req.session.admin) {
+        res.end();
+    }
+    try {
+        await db.query(
+            'UPDATE images SET position = $1 WHERE id = $2',
+            [req.body.position_two, req.body.id_one]
+        );
+        await db.query(
+            'UPDATE images SET position = $1 WHERE id = $2',
+            [req.body.position_one, req.body.id_two]
+        );
+        res.json({
+            success: true
+        });
+    } catch (err) {
+        console.log(err);
+        res.json({
+            success: false
+        });
+    }
+});
+
+app.post('/get_images', async (req, res) => {
+    if (!req.session.admin) {
+        res.end();
+    }
+    try {
+        const result = await db.query(
+            'SELECT * FROM images WHERE folder_id = $1 ORDER BY position DESC',
+            [req.body.id]
+        );
+        res.json({
+            success: true,
+            images: result.rows
+        });
+    } catch (err) {
+        console.log(err);
+        res.json({
+            success: false
         });
     }
 });

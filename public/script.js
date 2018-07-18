@@ -1,6 +1,6 @@
 (function() {
 
-    // components
+    // projects component
 
     const Projects = Vue.extend({
         template: '#projects-template',
@@ -155,17 +155,217 @@
         }
     });
 
-    const Folder = Vue.extend({
-        template: '#folder-template'
+    // images component
+
+    const Images = Vue.extend({
+        template: '#images-template',
+        props: {
+            admin: Boolean
+        },
+        data: function() {
+            return {
+                message: 'Hier kannst du ein neues Bild hochladen .',
+                confirm: false,
+                description: '',
+                newfolder: '',
+                images: []
+            }
+        },
+        methods: {
+            $_images_uploadimage: function() {
+
+            },
+            $_images_changeimagefolder: function(event) {
+                if (event.keyCode !== 13) {
+                    return;
+                }
+                const app = this;
+                axios
+                    .post('/change_image_folder', {
+                        id: event.target.id.slice(9),
+                        name: this.newfolder
+                    })
+                    .then(function(resp) {
+                        if (resp.data.success) {
+                            app.$_images_getimages();
+                            app.newfolder = '';
+                        } else {
+                            app.message = 'Da ist was schiefgelaufen .';
+                        }
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                        app.message = 'Der Server antwortet nicht .';
+                    });
+            },
+            $_images_confirmdelete: function() {
+                this.confirm = true;
+            },
+            $_images_canceldelete: function() {
+                this.confirm = false;
+            },
+            $_images_deleteimage: function(event) {
+                const app = this;
+                axios
+                    .post('/delete_image', {
+                        id: event.target.id.slice(7)
+                    })
+                    .then(function(resp) {
+                        if (resp.data.success) {
+                            app.$_images_canceldelete();
+                            app.$_images_getimages();
+                        } else {
+                            app.message = 'Da ist was schiefgelaufen .';
+                        }
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                        app.message = 'Der Server antwortet nicht .';
+                    });
+            },
+            $_images_prevposition: function(event) {
+                const imagesToSwap = this.images.filter(function(v, i, a) { return v.id == event.target.id.slice(4) || (a[i + 1] && a[i + 1].id == event.target.id.slice(4)) });
+                if (foldersToSwap.length < 2) {
+                    return;
+                } else {
+                    this.$_images_swapimages(imagesToSwap);
+                }
+            },
+            $_images_nextposition: function(event) {
+                const imagesToSwap = this.images.filter(function(v, i, a) { return v.id == event.target.id.slice(4) || (a[i - 1] && a[i - 1].id == event.target.id.slice(4)) });
+                if (foldersToSwap.length < 2) {
+                    return;
+                } else {
+                    this.$_images_swapimages(imagesToSwap);
+                }
+            },
+            $_images_swapimages: function(imagesToSwap) {
+                const app = this;
+                axios
+                    .post('/swap_images', {
+                        id_one: imagesToSwap[0].id,
+                        position_one: imagesToSwap[0].position,
+                        id_two: imagesToSwap[1].id,
+                        position_two: imagesToSwap[1].position
+                    })
+                    .then(function(resp) {
+                        if (resp.data.success) {
+                            app.$_images_getimages();
+                        } else {
+                            app.message = 'Da ist was schiefgelaufen .';
+                        }
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                        app.message = 'Der Server antwortet nicht .';
+                    });
+            },
+            $_images_getimages: function() {
+                const app = this;
+                axios
+                    .post('/get_images', {
+                        id: this.$route.params.id
+                    })
+                    .then(function(resp) {
+                        if (resp.data.success) {
+                            console.log(resp.data.images);
+                            app.images = resp.data.images;
+                        } else {
+                            app.message = 'Da ist was schiefgelaufen .';
+                        }
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                        app.message = 'Der Server antwortet nicht .';
+                    });
+            }
+        },
+        mounted: function() {
+            this.$_images_getimages();
+        }
     });
+
+    // contact component
 
     const Contact = Vue.extend({
-        template: '#contact-template'
+        template: '#contact-template',
+        props: {
+            admin: Boolean
+        },
+        data: function() {
+            return {
+                message: 'Hier kannst du einen neuen Bilderordner erstellen .',
+                confirm: false,
+                name: '',
+                description: '',
+                newname: '',
+                folders: []
+            }
+        },
+        methods: {
+            $_contact: function() {
+                const app = this;
+                axios
+                    .get('/get_folders')
+                    .then(function(resp) {
+                        if (resp.data.success) {
+                            app.folders = resp.data.folders;
+                        } else {
+                            app.message = 'Da ist was schiefgelaufen .';
+                        }
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                        app.message = 'Der Server antwortet nicht .';
+                    });
+            }
+        },
+        mounted: function() {
+            this.$_contact();
+        }
     });
 
+    // about component
+
     const About = Vue.extend({
-        template: '#about-template'
+        template: '#about-template',
+        props: {
+            admin: Boolean
+        },
+        data: function() {
+            return {
+                message: 'Hier kannst du einen neuen Bilderordner erstellen .',
+                confirm: false,
+                name: '',
+                description: '',
+                newname: '',
+                folders: []
+            }
+        },
+        methods: {
+            $_about: function() {
+                const app = this;
+                axios
+                    .get('/get_folders')
+                    .then(function(resp) {
+                        if (resp.data.success) {
+                            app.folders = resp.data.folders;
+                        } else {
+                            app.message = 'Da ist was schiefgelaufen .';
+                        }
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                        app.message = 'Der Server antwortet nicht .';
+                    });
+            }
+        },
+        mounted: function() {
+            this.$_about();
+        }
     });
+
+    // admin component
 
     const Admin = Vue.extend({
         template: '#admin-template',
