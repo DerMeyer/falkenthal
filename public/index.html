@@ -219,6 +219,7 @@
             <section class="info-container">
                 <img src="default_image.jpg" alt="Logo">
                 <section class="contact-form">
+                    <h2>{{ contactMessage }}</h2>
                     <input
                         v-model="sender"
                         type="text"
@@ -231,9 +232,9 @@
                     ></input>
                     <textarea
                         v-model="text"
-                        placeholder="Please send me a message!"
+                        placeholder="Your Message"
                     ></textarea>
-                    <button @click="sendMail">Send</button>
+                    <button @click="$_contact_sendMail">Send</button>
                 </section>
             </section>
         </script>

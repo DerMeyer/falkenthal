@@ -332,4 +332,18 @@ app.post('/get_images', async (req, res) => {
     }
 });
 
+app.post('/send_mail', async (req, res) => {
+    try {
+        console.log(req.body);
+        res.json({
+            success: true
+        });
+    } catch (err) {
+        console.log(err);
+        res.json({
+            success: false
+        });
+    }
+});
+
 app.listen(PORT, () => console.log(`I'm listening on port ${PORT}`));

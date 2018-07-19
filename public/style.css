@@ -35,11 +35,10 @@ input {
 
 textarea {
     font-family: Verdana;
-    font-size: 2vh;
-    min-height: 23vh;
+    font-size: 1.5vh;
+    min-height: 18vh;
     width: 28vw;
     padding: 1vh;
-    margin-bottom: 2vh;
 }
 
 label {
@@ -190,7 +189,7 @@ main {
     font-size: 2.5vh;
     white-space: nowrap;
     margin-bottom: 1vh;
-    color: rgb(150, 150, 150);
+    color: rgb(180, 180, 180);
 }
 
 .scroll-container__item img {

@@ -367,39 +367,42 @@
 
     const Contact = Vue.extend({
         template: '#contact-template',
-        props: {
-            admin: Boolean
-        },
         data: function() {
             return {
-                message: 'Erstelle einen neuen Bilderordner .',
-                confirmDelete: false,
-                name: '',
-                description: '',
-                newname: '',
-                folders: []
+                contactMessage: 'Please send me a message .',
+                sender: '',
+                mail: '',
+                text: ''
             }
         },
         methods: {
-            $_contact: function() {
+            $_contact_sendMail: function() {
                 const app = this;
                 axios
-                    .get('/get_folders')
+                    .post('/send_mail', {
+                        sender: this.sender,
+                        mail: this.mail,
+                        text: this.text
+                    })
                     .then(function(resp) {
                         if (resp.data.success) {
-                            app.folders = resp.data.folders;
+                            app.contactMessage = 'Thank you, your message has been sent !';
+                            app.sender = '';
+                            app.mail = '';
+                            app.text = '';
+                            const appNxt = app;
+                            window.setTimeout(function() {
+                                appNxt.contactMessage = 'Please send me a message .';
+                            }, 4000);
                         } else {
-                            app.message = 'Da ist was schiefgelaufen .';
+                            app.contactMessage = 'Sorry, your message could not be sent .';
                         }
                     })
                     .catch(function(err) {
                         console.log(err);
-                        app.message = 'Der Server antwortet nicht .';
+                        app.contactMessage = 'Sorry, the server sends no response .';
                     });
             }
-        },
-        mounted: function() {
-            this.$_contact();
         }
     });
 
@@ -412,34 +415,19 @@
         },
         data: function() {
             return {
-                message: 'Erstelle einen neuen Bilderordner .',
-                confirmDelete: false,
-                name: '',
-                description: '',
-                newname: '',
-                folders: []
+                message: 'Schreib etwas über dich .'
             }
         },
         methods: {
-            $_about: function() {
-                const app = this;
-                axios
-                    .get('/get_folders')
-                    .then(function(resp) {
-                        if (resp.data.success) {
-                            app.folders = resp.data.folders;
-                        } else {
-                            app.message = 'Da ist was schiefgelaufen .';
-                        }
-                    })
-                    .catch(function(err) {
-                        console.log(err);
-                        app.message = 'Der Server antwortet nicht .';
-                    });
+            $_about_updateInfo: function() {
+                console.log(this.message);
+            },
+            $_about_getInfo: function() {
+                console.log('I will get all the info.');
             }
         },
         mounted: function() {
-            this.$_about();
+            this.$_about_getInfo();
         }
     });
 
