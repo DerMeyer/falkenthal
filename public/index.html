@@ -57,7 +57,7 @@
                     v-for="element in folders"
                     :key="element.id"
                     class="scroll-container__item"
-                    >
+                >
                     <h2>{{ element.name }}</h2>
                     <img :src="element.title_image_url || 'default_image.jpg'" alt="Folder">
 
@@ -68,11 +68,11 @@
                         <section class="admin-overlay__inputs">
                             <input
                                 :id="'newname' + element.id"
-                                type="text"
-                                placeholder="Neuer Name"
                                 v-model="newname"
                                 @click.stop.prevent=""
                                 @keydown="$_projects_renamefolder"
+                                type="text"
+                                placeholder="Neuer Name"
                             ></input>
                             <button
                                 v-if="!confirmDelete"
@@ -106,19 +106,19 @@
                 </router-link>
 
                 <!-- admin menu -->
-                <section v-if="admin" class="admin-create-content">
+                <section v-if="admin" class="admin-content-creator">
                     <h2>{{ message }}</h2>
                     <input
-                        type="text"
-                        placeholder="Name"
                         v-model="name"
                         @keydown="$_projects_createfolder"
+                        type="text"
+                        placeholder="Name"
                     ></input>
                     <input
-                        type="text"
-                        placeholder="Private Notiz"
                         v-model="description"
                         @keydown="$_projects_createfolder"
+                        type="text"
+                        placeholder="Private Notiz"
                     ></input>
                     <button @click="$_projects_createfolder">Ordner erstellen</button>
                 </section>
@@ -135,7 +135,7 @@
                     v-for="element in images"
                     :key="element.id"
                     class="scroll-container__item"
-                    >
+                >
                     <img :src="element.url" alt="Image">
 
                     <!-- admin overlay -->
@@ -145,11 +145,11 @@
                         <section class="admin-overlay__inputs">
                             <input
                                 :id="'newfolder' + element.id"
-                                type="text"
-                                placeholder="Ordner wechseln"
                                 v-model="newfolder"
                                 @click.stop.prevent=""
                                 @keydown="$_images_changeImageFolder"
+                                type="text"
+                                placeholder="Ordner wechseln"
                             ></input>
                             <button
                                 :id="'title' + element.id"
@@ -188,17 +188,17 @@
                 </section>
 
                 <!-- admin menu -->
-                <section v-if="admin" class="admin-create-content">
+                <section v-if="admin" class="admin-content-creator">
                     <h2>{{ message }}</h2>
                     <input
                         :id="'ipt' + $route.params.id"
-                        type="text"
-                        placeholder="Private Notiz"
                         v-model="description"
                         @keydown="$_images_uploadImage"
+                        type="text"
+                        placeholder="Private Notiz"
                     ></input>
                     <img
-                        v-if="previewImage"
+                        v-if="selectedImage.url"
                         :src="selectedImage.url"
                         alt="Image Preview"
                     >
@@ -208,8 +208,8 @@
                         name="imageforupload"
                         @change="$_images_createFileReader"
                     ></input>
-                    <label for="fileInput">Auswählen</label>
-                    <button @click="$_images_uploadImage">Hochladen</button>
+                    <label for="fileInput">{{ selectedImage.url ? 'Ändern' : 'Auswählen' }}</label>
+                    <button v-if="selectedImage.url" @click="$_images_uploadImage">Hochladen</button>
                 </section>
 
             </section>
@@ -237,10 +237,10 @@
             <section class="admin-template-container">
                 <h2>{{ message }}</h2>
                 <input
-                    type="password"
-                    placeholder="Passwort"
                     v-model="pw"
                     @keydown="$_admin_login"
+                    type="password"
+                    placeholder="Passwort"
                 ></input>
                 <button @click="$_admin_login">Log in</button>
             </section>

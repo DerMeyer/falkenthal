@@ -199,7 +199,7 @@ main {
     font-size: 3vh;
 }
 
-.admin-create-content {
+.admin-content-creator {
     position: absolute;
     top: 3vh;
     left: 69vw;
@@ -212,11 +212,11 @@ main {
     background-color: whitesmoke;
 }
 
-.admin-create-content h2 {
+.admin-content-creator h2 {
     margin: 1vw;
 }
 
-.admin-create-content img {
+.admin-content-creator img {
     max-height: 40vh;
     max-width: 25vw;
 }

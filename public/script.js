@@ -165,7 +165,6 @@
         data: function() {
             return {
                 message: 'Hier kannst du ein neues Bild hochladen .',
-                previewImage: false,
                 confirmDelete: false,
                 selectedImage: {},
                 description: '',
@@ -186,7 +185,6 @@
                         url: selectedImage.result,
                         file: event.target.files[0]
                     };
-                    app.previewImage = true;
                 });
             },
             $_images_uploadImage: function(event) {
@@ -204,7 +202,6 @@
                         .then(function(resp) {
                             if (resp.data.success) {
                                 app.message = 'Erfolg !';
-                                app.previewImage = false;
                                 app.selectedImage = {};
                                 app.description = '';
                                 const appNxt = app;
