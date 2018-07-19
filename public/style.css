@@ -29,7 +29,7 @@ input {
     font-size: 2.5vh;
     text-align: center;
     height: 4vh;
-    width: 30vw;
+    width: 28vw;
     margin-bottom: 2vh;
 }
 
@@ -87,14 +87,14 @@ header h2 {
     margin: 0 2vw;
 }
 
-.menu_page {
+.page-menu {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     min-width: 25vw;
     margin-top: 4vh;
 }
 
-.menu_page a {
+.page-menu a {
     cursor: pointer;
     white-space: nowrap;
     justify-self: center;
@@ -102,39 +102,57 @@ header h2 {
     transition-duration: .15s;
 }
 
-.menu_page p:hover {
+.page-menu a:hover {
     color: lightgray;
 }
 
-.menu_target_blank {
+.web-menu {
     display: flex;
     margin-top: 4vh;
 }
 
-.menu_target_blank a {
+.web-menu a {
     height: 4vh;
     transition-duration: .15s;
 }
 
-.menu_target_blank a:hover {
+.web-menu a:hover {
     opacity: .6;
 }
 
-.menu_target_blank img {
+.web-menu img {
     height: 4vh;
     margin: .5vh;
     opacity: .3;
 }
 
+.admin-menu {
+    position: absolute;
+    left: 4vw;
+    top: 3vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 15vh;
+    width: 12vw;
+    border-radius: 1vh;
+    background-color: whitesmoke;
+}
+
+.admin-menu h2 {
+    margin-top: 1vw;
+}
+
 /* content */
 
-.content_container {
+main {
     display: flex;
     justify-content: center;
     width: 100vw;
 }
 
-.scroll_container {
+.scroll-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-auto-rows: auto;
@@ -143,7 +161,7 @@ header h2 {
     padding: 8vh 0;
 }
 
-.scroll_container_item {
+.scroll-container__item {
     position: relative;
     justify-self: center;
     align-self: center;
@@ -152,13 +170,13 @@ header h2 {
     align-items: center;
 }
 
-.scroll_container_item h2 {
+.scroll-container__item h2 {
     font-size: 2.5vh;
     white-space: nowrap;
     margin: 0 0 1vh 0;
 }
 
-.scroll_container_item img {
+.scroll-container__item img {
     max-height: 40vh;
     max-width: 25vw;
     border-radius: .5vh;
@@ -167,35 +185,38 @@ header h2 {
 
 /* admin */
 
-.admin_menu {
-    position: absolute;
-    left: 85vw;
-    top: 0;
+.admin-template-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.admin_container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 0 1vw 1vw 1vw;
     margin: 10vh;
+    border-radius: 1vh;
+    background-color: whitesmoke;
 }
 
-.admin_container h2 {
+.admin-template-container h2 {
     font-size: 3vh;
 }
 
-.admin_create_container {
-    grid-column: 1 / 4;
+.admin-create-content {
+    position: absolute;
+    top: 3vh;
+    left: 69vw;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 10vh;
+    width: 30vw;
+    padding-bottom: 3vh;
+    border-radius: 1vh;
+    background-color: whitesmoke;
 }
 
-.admin_create_container img {
+.admin-create-content h2 {
+    margin: 1vw;
+}
+
+.admin-create-content img {
     max-height: 40vh;
     max-width: 25vw;
 }
@@ -204,52 +225,52 @@ header h2 {
     display: none;
 }
 
-.admin_item {
+.admin-overlay {
     position: absolute;
-    left: 1vh;
+    left: 2vh;
     bottom: 1vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 38vh;
-    width: 38vh;
+    width: 36vh;
     border-radius: .5vh;
     background-color: white;
     opacity: 0;
     transition-duration: .2s;
 }
 
-.admin_item:hover {
+.admin-overlay:hover {
     opacity: 1;
 }
 
-.admin_item p {
+.admin-overlay p {
     font-size: 2vh;
     height: 11vh;
     overflow: scroll;
 }
 
-.admin_item_edit {
+.admin-overlay__inputs {
     display: flex;
     flex-wrap: wrap;
 }
 
-.admin_item_edit input {
+.admin-overlay__inputs input {
     width: 35vh;
     margin: 1vh .5vh;
 }
 
-.admin_item_edit button {
+.admin-overlay__inputs button {
     width: 11vh;
     margin: 1vh .5vh;
 }
 
-button.admin_item_delete_btn {
+button.admin-overlay__button--delete {
     width: 17vh;
     color: red;
 }
 
-button.admin_item_title_btn {
+button.admin-overlay__button--settitle {
     width: 35vh;
 }

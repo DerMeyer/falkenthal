@@ -15,18 +15,19 @@
         <!-- app -->
 
         <section id="app">
+
             <header>
                 <section class="headline">
                     <h1>Falkenthal</h1>
                     <img src="icon.png" alt="Logo">
                     <h1>Illustration</h1>
                 </section>
-                <section class="menu_page">
+                <section class="page-menu">
                     <router-link to="/projects">Projekte</router-link>
                     <router-link to="/contact">Kontakt</router-link>
                     <router-link to="/about">Über mich</router-link>
                 </section>
-                <section class="menu_target_blank">
+                <section class="web-menu">
                     <a href="https://www.instagram.com/falkenthal_illustration/" target="_blank">
                         <img src="insta.png">
                     </a>
@@ -34,33 +35,37 @@
                         <img src="fb.svg">
                     </a>
                 </section>
-                <section v-if="admin" class="admin_menu">
+                <section v-if="admin" class="admin-menu">
                     <h2>{{ message }}</h2>
                     <button @click="$_app_logout">Log out</button>
                 </section>
             </header>
 
-            <section class="content_container">
+            <main>
                 <router-view :admin="admin"></router-view>
-            </section>
+            </main>
+
         </section>
 
         <!-- projects template -->
 
         <script id="projects-template" type="text/x-template">
-            <section class="scroll_container">
+            <section class="scroll-container">
+
                 <router-link
                     :to="'/images/' + element.id"
                     v-for="element in folders"
                     :key="element.id"
-                    class="scroll_container_item"
+                    class="scroll-container__item"
                     >
                     <h2>{{ element.name }}</h2>
                     <img :src="element.title_image_url || 'default_image.jpg'" alt="Folder">
-                    <section v-if="admin" class="admin_item">
-                        <h2>{{ element.created_at.slice(0, 10) }}</h2>
+
+                    <!-- admin overlay -->
+                    <section v-if="admin" class="admin-overlay">
+                        <h2>{{ element.created_at.slice(0, 10).split('-').reverse().join('. ') }}</h2>
                         <p>{{ element.description }}</p>
-                        <section class="admin_item_edit">
+                        <section class="admin-overlay__inputs">
                             <input
                                 :id="'newname' + element.id"
                                 type="text"
@@ -88,18 +93,20 @@
                                 v-if="confirmDelete"
                                 :id="'confirm' + element.id"
                                 @click.stop.prevent="$_projects_deletefolder"
-                                class="admin_item_delete_btn"
+                                class="admin-overlay__button--delete"
                             >Ordner Löschen</button>
                             <button
                                 v-if="confirmDelete"
                                 :id="'cancel' + element.id"
                                 @click.stop.prevent="$_projects_canceldelete"
-                                class="admin_item_delete_btn"
+                                class="admin-overlay__button--delete"
                             >Lieber nicht</button>
                         </section>
                     </section>
                 </router-link>
-                <section v-if="admin" class="admin_create_container">
+
+                <!-- admin menu -->
+                <section v-if="admin" class="admin-create-content">
                     <h2>{{ message }}</h2>
                     <input
                         type="text"
@@ -115,23 +122,27 @@
                     ></input>
                     <button @click="$_projects_createfolder">Ordner erstellen</button>
                 </section>
+
             </section>
         </script>
 
         <!-- images template -->
 
         <script id="images-template" type="text/x-template">
-            <section class="scroll_container">
+            <section class="scroll-container">
+
                 <section
                     v-for="element in images"
                     :key="element.id"
-                    class="scroll_container_item"
+                    class="scroll-container__item"
                     >
                     <img :src="element.url" alt="Image">
-                    <section v-if="admin" class="admin_item">
-                        <h2>{{ element.created_at.slice(0, 10) }}</h2>
+
+                    <!-- admin overlay -->
+                    <section v-if="admin" class="admin-overlay">
+                        <h2>{{ element.created_at.slice(0, 10).split('-').reverse().join('. ') }}</h2>
                         <p>{{ element.description }}</p>
-                        <section class="admin_item_edit">
+                        <section class="admin-overlay__inputs">
                             <input
                                 :id="'newfolder' + element.id"
                                 type="text"
@@ -143,7 +154,7 @@
                             <button
                                 :id="'title' + element.id"
                                 @click.stop.prevent="$_images_setTitleImage"
-                                class="admin_item_title_btn"
+                                class="admin-overlay__button--settitle"
                             >Titelbild</button>
                             <button
                                 v-if="!confirmDelete"
@@ -164,18 +175,20 @@
                                 v-if="confirmDelete"
                                 :id="'confirm' + element.id"
                                 @click.stop.prevent="$_images_deleteImage"
-                                class="admin_item_delete_btn"
+                                class="admin-overlay__button--delete"
                             >Bild Löschen</button>
                             <button
                                 v-if="confirmDelete"
                                 :id="'cancel' + element.id"
                                 @click.stop.prevent="$_images_cancelDelete"
-                                class="admin_item_delete_btn"
+                                class="admin-overlay__button--delete"
                             >Lieber nicht</button>
                         </section>
                     </section>
                 </section>
-                <section v-if="admin" class="admin_create_container">
+
+                <!-- admin menu -->
+                <section v-if="admin" class="admin-create-content">
                     <h2>{{ message }}</h2>
                     <input
                         :id="'ipt' + $route.params.id"
@@ -198,13 +211,14 @@
                     <label for="fileInput">Auswählen</label>
                     <button @click="$_images_uploadImage">Hochladen</button>
                 </section>
+
             </section>
         </script>
 
         <!-- contact template -->
 
         <script id="contact-template" type="text/x-template">
-            <section class="scroll_container">
+            <section class="scroll-container">
                 Contact!
             </section>
         </script>
@@ -212,7 +226,7 @@
         <!-- about template -->
 
         <script id="about-template" type="text/x-template">
-            <section class="scroll_container">
+            <section class="scroll-container">
                 About!
             </section>
         </script>
@@ -220,7 +234,7 @@
         <!-- admin template -->
 
         <script id="admin-template" type="text/x-template">
-            <section class="admin_container">
+            <section class="admin-template-container">
                 <h2>{{ message }}</h2>
                 <input
                     type="password"
