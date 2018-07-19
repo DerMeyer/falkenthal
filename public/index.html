@@ -15,7 +15,6 @@
         <!-- app -->
 
         <section id="app">
-
             <header>
                 <section class="headline">
                     <h1>Falkenthal</h1>
@@ -44,13 +43,12 @@
             <main>
                 <router-view :admin="admin"></router-view>
             </main>
-
         </section>
 
         <!-- projects template -->
 
         <script id="projects-template" type="text/x-template">
-            <section class="scroll-container">
+            <section class="scroll-container projects-container">
 
                 <router-link
                     :to="'/images/' + element.id"
@@ -129,7 +127,7 @@
         <!-- images template -->
 
         <script id="images-template" type="text/x-template">
-            <section class="scroll-container">
+            <section class="scroll-container images-container">
 
                 <section
                     v-for="element in images"
@@ -190,6 +188,11 @@
                 <!-- admin menu -->
                 <section v-if="admin" class="admin-content-creator">
                     <h2>{{ message }}</h2>
+                    <img
+                    v-if="selectedImage.url"
+                    :src="selectedImage.url"
+                    alt="Image Preview"
+                    >
                     <input
                         :id="'ipt' + $route.params.id"
                         v-model="description"
@@ -197,11 +200,6 @@
                         type="text"
                         placeholder="Private Notiz"
                     ></input>
-                    <img
-                        v-if="selectedImage.url"
-                        :src="selectedImage.url"
-                        alt="Image Preview"
-                    >
                     <input
                         id="fileInput"
                         type="file"
@@ -218,16 +216,46 @@
         <!-- contact template -->
 
         <script id="contact-template" type="text/x-template">
-            <section class="scroll-container">
-                Contact!
+            <section class="info-container">
+                <img src="default_image.jpg" alt="Logo">
+                <section class="contact-form">
+                    <input
+                        v-model="sender"
+                        type="text"
+                        placeholder="Your Name"
+                    ></input>
+                    <input
+                        v-model="mail"
+                        type="text"
+                        placeholder="Your Email"
+                    ></input>
+                    <textarea
+                        v-model="text"
+                        placeholder="Please send me a message!"
+                    ></textarea>
+                    <button @click="sendMail">Send</button>
+                </section>
             </section>
         </script>
 
         <!-- about template -->
 
         <script id="about-template" type="text/x-template">
-            <section class="scroll-container">
-                About!
+            <section class="info-container">
+                <img src="default_image.jpg" alt="Logo">
+                <section class="info">
+                    <h1>Hallo, ich bin Jens Falkenthal</h1>
+                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
+                    <h2>Das hier:</h2>
+                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod.</p>
+                    <h2>Das hier auch:</h2>
+                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod.</p>
+                    <h4>Jens Falkenthal</h4>
+                    <h4>Straßenweg 12</h4>
+                    <h4>10987 Berlin</h4>
+                    <h4>Deutschland</h4>
+                    <h4>0175 7936257</h4>
+                </section>
             </section>
         </script>
 

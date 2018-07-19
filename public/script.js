@@ -9,7 +9,7 @@
         },
         data: function() {
             return {
-                message: 'Hier kannst du einen neuen Bilderordner erstellen .',
+                message: 'Erstelle einen neuen Bilderordner .',
                 confirmDelete: false,
                 name: '',
                 description: '',
@@ -37,7 +37,7 @@
                             app.description = '';
                             const appNxt = app;
                             window.setTimeout(function() {
-                                appNxt.message = 'Hier kannst du einen neuen Bilderordner erstellen .';
+                                appNxt.message = 'Erstelle einen neuen Bilderordner .';
                             }, 2000);
                         } else {
                             app.message = 'Da ist was schiefgelaufen .';
@@ -164,7 +164,7 @@
         },
         data: function() {
             return {
-                message: 'Hier kannst du ein neues Bild hochladen .',
+                message: 'Hier kannst du ein Bild hochladen .',
                 confirmDelete: false,
                 selectedImage: {},
                 description: '',
@@ -206,7 +206,7 @@
                                 app.description = '';
                                 const appNxt = app;
                                 window.setTimeout(function() {
-                                    appNxt.message = 'Hier kannst du ein neues Bild hochladen .';
+                                    appNxt.message = 'Hier kannst du ein Bild hochladen .';
                                     appNxt.$_images_getImages();
                                 }, 2000);
                             } else {
@@ -222,7 +222,7 @@
                     this.message = 'Es scheint kein Bild ausgewählt zu sein .';
                     const app = this;
                     window.setTimeout(function() {
-                        app.message = 'Hier kannst du ein neues Bild hochladen .';
+                        app.message = 'Hier kannst du ein Bild hochladen .';
                     }, 2000);
                 }
             },
@@ -238,7 +238,7 @@
                             app.message = 'Erfolg !';
                             const appNxt = app;
                             window.setTimeout(function() {
-                                appNxt.message = 'Hier kannst du ein neues Bild hochladen .';
+                                appNxt.message = 'Hier kannst du ein Bild hochladen .';
                             }, 2000);
                         } else {
                             app.message = 'Da ist was schiefgelaufen .';
@@ -268,7 +268,7 @@
                             app.newfolder = '';
                             const appNxt = app;
                             window.setTimeout(function() {
-                                appNxt.message = 'Hier kannst du ein neues Bild hochladen .';
+                                appNxt.message = 'Hier kannst du ein Bild hochladen .';
                             }, 2000);
                         }
                     })
@@ -372,7 +372,7 @@
         },
         data: function() {
             return {
-                message: 'Hier kannst du einen neuen Bilderordner erstellen .',
+                message: 'Erstelle einen neuen Bilderordner .',
                 confirmDelete: false,
                 name: '',
                 description: '',
@@ -412,7 +412,7 @@
         },
         data: function() {
             return {
-                message: 'Hier kannst du einen neuen Bilderordner erstellen .',
+                message: 'Erstelle einen neuen Bilderordner .',
                 confirmDelete: false,
                 name: '',
                 description: '',
