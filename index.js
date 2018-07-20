@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const nodemailer = require('nodemailer');
 
 const PORT = process.env.PORT || 8080;
 
@@ -8,7 +9,7 @@ const db = spicedPg(process.env.DATABASE_URL || 'postgres:postgres:postgres@loca
 
 const { s3upload } = require('./s3');
 const { s3Url } = require('./config');
-const { MY_SECRET, ADMIN_PASSWORD } = (process.env.NODE_ENV === 'production' && process.env) || require('./confidential.json');
+const { MY_SECRET, SMTP_USER, SMTP_PASS, ADMIN_PASSWORD } = (process.env.NODE_ENV === 'production' && process.env) || require('./confidential.json');
 
 const multer = require('multer');
 const uidSafe = require('uid-safe');
@@ -332,11 +333,35 @@ app.post('/get_images', async (req, res) => {
     }
 });
 
-app.post('/send_mail', async (req, res) => {
+app.post('/send_mail', (req, res) => {
     try {
-        console.log(req.body);
-        res.json({
-            success: true
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.1und1.de',
+            port: 587,
+            secure: false,
+            auth: {
+                user: SMTP_USER,
+                pass: SMTP_PASS
+            }
+        });
+        const mailOptions = {
+            from: req.body.mail,
+            to: 'simon.der.meyer@gmail.com',
+            subject: `Nachricht von ${req.body.sender}`,
+            html: `<h2 style="color:gray">Hi Jens!</h2><h3 style="color:gray">${req.body.sender} hat Dir diese Nachricht von deiner Homepage geschickt:</h3><p style="white-space:pre-line">${req.body.text}</p>`
+        };
+        transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
+                console.log(`It didn't work. Here's the error:`, err);
+                res.json({
+                    success: false
+                });
+            } else {
+                console.log('Success! Message ID at register:', info.messageId);
+                res.json({
+                    success: true
+                });
+            }
         });
     } catch (err) {
         console.log(err);

@@ -369,7 +369,7 @@
         template: '#contact-template',
         data: function() {
             return {
-                contactMessage: 'Please send me a message .',
+                contactMessage: 'Schick mir eine Nachricht .',
                 sender: '',
                 mail: '',
                 text: ''
@@ -386,21 +386,21 @@
                     })
                     .then(function(resp) {
                         if (resp.data.success) {
-                            app.contactMessage = 'Thank you, your message has been sent !';
+                            app.contactMessage = 'Vielen dank, deine Nachricht wurde gesendet !';
                             app.sender = '';
                             app.mail = '';
                             app.text = '';
                             const appNxt = app;
                             window.setTimeout(function() {
-                                appNxt.contactMessage = 'Please send me a message .';
+                                appNxt.contactMessage = 'Schick mir eine Nachricht .';
                             }, 4000);
                         } else {
-                            app.contactMessage = 'Sorry, your message could not be sent .';
+                            app.contactMessage = 'Sorry, die Nachricht konnte nicht gesendet werden . Stimmt deine Email ?';
                         }
                     })
                     .catch(function(err) {
                         console.log(err);
-                        app.contactMessage = 'Sorry, the server sends no response .';
+                        app.contactMessage = 'Sorry, der Server antwortet nicht .';
                     });
             }
         }
