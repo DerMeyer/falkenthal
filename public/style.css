@@ -381,11 +381,12 @@ button.admin-overlay__button--settitle {
     }
 
     .headline h1 {
-        font-size: 4vh;
+        font-size: 3.7vh;
     }
 
     .headline img {
-        height: 12vh;
+        max-height: 12vh;
+        max-width: 24vw;
     }
 
     .page-menu {
