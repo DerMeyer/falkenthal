@@ -348,16 +348,18 @@ app.post('/send_mail', (req, res) => {
             from: req.body.mail,
             to: 'simon.der.meyer@gmail.com',
             subject: `Nachricht von ${req.body.sender}`,
-            html: `<h2 style="color:gray">Hi Jens!</h2><h3 style="color:gray">${req.body.sender} hat Dir diese Nachricht von deiner Homepage geschickt:</h3><p style="white-space:pre-line">${req.body.text}</p>`
+            html: `<h2 style="color:gray">Hi Jens!</h2>
+                   <h3 style="color:gray">${req.body.sender} hat Dir diese Nachricht von deiner Homepage geschickt:</h3>
+                   <p style="white-space:pre-line">${req.body.text}</p>`
         };
         transporter.sendMail(mailOptions, (err, info) => {
             if (err) {
-                console.log(`It didn't work. Here's the error:`, err);
+                console.log(`Emailing didn't work. Here's the error:`, err);
                 res.json({
                     success: false
                 });
             } else {
-                console.log('Success! Message ID at register:', info.messageId);
+                console.log('Emailing Success! Message ID at register:', info.messageId);
                 res.json({
                     success: true
                 });

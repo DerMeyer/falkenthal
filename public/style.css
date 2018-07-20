@@ -1,17 +1,22 @@
 /* root */
 
+:root {
+    /* --fontone: 'Fredericka the Great', cursive; */
+    /* --fontone: 'Cormorant Garamond', serif; */
+    /* --fontone: 'Annie Use Your Telescope', cursive; */
+    /* --fontone: 'Cardo', serif; */
+    /* --fontone: 'Shadows Into Light', cursive; */
+    /* --fontone: 'Nanum Brush Script', cursive; */
+    --fontone: 'The Girl Next Door', cursive;
+    --fonttwo: Verdana;
+}
+
 * {
     box-sizing: border-box;
 }
 
 html {
-    /* font-family: 'Cormorant Garamond', serif; */
-    /* font-family: 'Fredericka the Great', cursive; */
-    /* font-family: 'Annie Use Your Telescope', cursive; */
-    /* font-family: 'Cardo', serif; */
-    /* font-family: 'Shadows Into Light', cursive; */
-    /* font-family: 'Nanum Brush Script', cursive; */
-    font-family: 'The Girl Next Door', cursive;
+    font-family: var(--fontone);
 }
 
 body {
@@ -25,7 +30,7 @@ a {
 }
 
 input {
-    font-family: 'The Girl Next Door', cursive;
+    font-family: var(--fontone);
     font-size: 2.5vh;
     text-align: center;
     height: 4vh;
@@ -34,7 +39,7 @@ input {
 }
 
 textarea {
-    font-family: Verdana;
+    font-family: var(--fonttwo);
     font-size: 1.5vh;
     min-height: 18vh;
     width: 28vw;
@@ -53,7 +58,7 @@ label {
 
 button {
     cursor: pointer;
-    font-family: 'The Girl Next Door', cursive;
+    font-family: var(--fontone);
     font-size: 2vh;
     width: 10vw;
     margin-top: 2vh;
@@ -73,11 +78,6 @@ header {
     width: 100vw;
 }
 
-header h2 {
-    font-size: 3vh;
-    margin: 4vh 0 -2vh 0;
-}
-
 .headline {
     display: flex;
     align-items: center;
@@ -86,7 +86,6 @@ header h2 {
 
 .headline h1 {
     font-size: 5vh;
-    font-weight: 400;
     padding-top: 2vh;
 }
 
@@ -132,24 +131,6 @@ header h2 {
     height: 4vh;
     margin: .5vh;
     opacity: .3;
-}
-
-.admin-menu {
-    position: absolute;
-    left: 4vw;
-    top: 3vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 15vh;
-    width: 12vw;
-    border-radius: 1vh;
-    background-color: whitesmoke;
-}
-
-.admin-menu h2 {
-    margin-top: 1vw;
 }
 
 /* content */
@@ -219,6 +200,10 @@ main {
     align-items: center;
 }
 
+.contact-form h2 {
+    font-size: 3vh;
+}
+
 .info h1 {
     font-size: 4vh;
     margin: 0;
@@ -231,7 +216,7 @@ main {
 
 .info h4 {
     font-size: 1.5vh;
-    font-family: Verdana;
+    font-family: var(--fonttwo);
     font-weight: 700;
 }
 
@@ -240,6 +225,25 @@ main {
 }
 
 /* admin */
+
+.admin-menu {
+    position: absolute;
+    left: 4vw;
+    top: 3vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 15vh;
+    width: 12vw;
+    border-radius: 1vh;
+    background-color: whitesmoke;
+}
+
+.admin-menu h2 {
+    font-size: 3vh;
+    margin: 1vw 0 -2vh 0;
+}
 
 .admin-template-container {
     display: flex;
@@ -269,6 +273,7 @@ main {
 }
 
 .admin-content-creator h2 {
+    font-size: 3vh;
     margin: 1vw;
 }
 
@@ -334,4 +339,196 @@ button.admin-overlay__button--delete {
 
 button.admin-overlay__button--settitle {
     width: 35vh;
+}
+
+/* mobile view */
+
+@media only screen and (max-width: 480px) {
+    /* root */
+
+    input, textarea, label, button {
+        border: .2vh solid gray;
+    }
+
+    input {
+        height: 5vh;
+        width: 90vw;
+        margin-bottom: 1vh;
+    }
+
+    textarea {
+        min-height: 15vh;
+        width: 90vw;
+        padding: .5vh;
+    }
+
+    label {
+        font-size: 2.5vh;
+        width: 35vw;
+        margin-top: 1vh;
+    }
+
+    button {
+        font-size: 2.5vh;
+        width: 35vw;
+        margin-top: 1vh;
+    }
+
+    /* menu */
+
+    .headline {
+        margin: 0;
+    }
+
+    .headline h1 {
+        font-size: 4vh;
+    }
+
+    .headline img {
+        height: 12vh;
+    }
+
+    .page-menu {
+        width: 98vw;
+        margin-top: 3vh;
+    }
+
+    .page-menu a {
+        font-size: 3vh;
+    }
+
+    .web-menu {
+        margin-top: 3vh;
+    }
+
+    .web-menu a {
+        height: 6vh;
+    }
+
+    .web-menu img {
+        height: 6vh;
+    }
+
+    /* content */
+
+    .scroll-container {
+        display: block;
+        width: 95vw;
+    }
+
+    .projects-container {
+        margin: 3vh 0;
+    }
+
+    .images-container {
+        margin: 6vh 0 3vh 0;
+    }
+
+    .scroll-container__item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 3vh;
+    }
+
+    .scroll-container__item h2 {
+        font-size: 3vh;
+    }
+
+    .scroll-container__item img {
+        max-height: 50vh;
+        max-width: 95vw;
+    }
+
+    .info-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .info-container img {
+        max-height: 18vh;
+        max-width: 36vw;
+        margin: -4vh 0 -2vh 0;
+    }
+
+    .info h1 {
+        font-size: 4vh;
+        margin: 0;
+    }
+
+    .info h2 {
+        font-size: 2.5vh;
+        margin: 0;
+    }
+
+    .info h4 {
+        font-size: 1.5vh;
+        font-family: var(--fonttwo);
+        font-weight: 700;
+    }
+
+    .info p {
+        margin: 0 0 2vh 0;
+    }
+
+    /* admin */
+
+    .admin-menu {
+        position: static;
+        height: 14vh;
+        width: 90vw;
+        margin-top: 1vh;
+    }
+
+    .admin-menu h2 {
+        font-size: 3vh;
+        margin: 1vw 0 -1vh 0;
+    }
+
+    .admin-content-creator {
+        position: static;
+        width: 95vw;
+        margin-bottom: 3vh;
+    }
+
+    .admin-content-creator h2 {
+        margin: 1vw;
+    }
+
+    .admin-content-creator img {
+        max-height: 50vh;
+        max-width: 95vw;
+    }
+
+    .admin-overlay {
+        left: 5vw;
+        bottom: 0;
+        height: 48vh;
+        width: 85vw;
+        opacity: .8;
+    }
+
+    .admin-overlay p {
+        font-size: 2.5vh;
+    }
+
+    .admin-overlay__inputs input {
+        width: 80vw;
+        margin: 1vh 2.5vw;
+    }
+
+    .admin-overlay__inputs button {
+        width: 24vw;
+        margin: 1vh 1.5vw 1vh 2.5vw;
+    }
+
+    button.admin-overlay__button--delete {
+        width: 38vw;
+    }
+
+    button.admin-overlay__button--settitle {
+        width: 80vw;
+    }
 }

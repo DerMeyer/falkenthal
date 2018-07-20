@@ -16,6 +16,10 @@
 
         <section id="app">
             <header>
+                <section v-if="admin" class="admin-menu">
+                    <h2>{{ message }}</h2>
+                    <button @click="$_app_logout">Log out</button>
+                </section>
                 <section class="headline">
                     <h1>Falkenthal</h1>
                     <img src="icon.png" alt="Logo">
@@ -34,10 +38,6 @@
                         <img src="fb.svg">
                     </a>
                 </section>
-                <section v-if="admin" class="admin-menu">
-                    <h2>{{ message }}</h2>
-                    <button @click="$_app_logout">Log out</button>
-                </section>
             </header>
 
             <main>
@@ -50,6 +50,25 @@
         <script id="projects-template" type="text/x-template">
             <section class="scroll-container projects-container">
 
+                <!-- admin content creator -->
+                <section v-if="admin" class="admin-content-creator">
+                    <h2>{{ message }}</h2>
+                    <input
+                        v-model="name"
+                        @keydown="$_projects_createfolder"
+                        type="text"
+                        placeholder="Name"
+                    ></input>
+                    <input
+                        v-model="description"
+                        @keydown="$_projects_createfolder"
+                        type="text"
+                        placeholder="Private Notiz"
+                    ></input>
+                    <button @click="$_projects_createfolder">Ordner erstellen</button>
+                </section>
+
+                <!-- looped items -->
                 <router-link
                     :to="'/images/' + element.id"
                     v-for="element in folders"
@@ -103,24 +122,6 @@
                     </section>
                 </router-link>
 
-                <!-- admin menu -->
-                <section v-if="admin" class="admin-content-creator">
-                    <h2>{{ message }}</h2>
-                    <input
-                        v-model="name"
-                        @keydown="$_projects_createfolder"
-                        type="text"
-                        placeholder="Name"
-                    ></input>
-                    <input
-                        v-model="description"
-                        @keydown="$_projects_createfolder"
-                        type="text"
-                        placeholder="Private Notiz"
-                    ></input>
-                    <button @click="$_projects_createfolder">Ordner erstellen</button>
-                </section>
-
             </section>
         </script>
 
@@ -129,6 +130,32 @@
         <script id="images-template" type="text/x-template">
             <section class="scroll-container images-container">
 
+                <!-- admin content creator -->
+                <section v-if="admin" class="admin-content-creator">
+                    <h2>{{ message }}</h2>
+                    <img
+                    v-if="selectedImage.url"
+                    :src="selectedImage.url"
+                    alt="Image Preview"
+                    >
+                    <input
+                        :id="'ipt' + $route.params.id"
+                        v-model="description"
+                        @keydown="$_images_uploadImage"
+                        type="text"
+                        placeholder="Private Notiz"
+                    ></input>
+                    <input
+                        id="fileInput"
+                        type="file"
+                        name="imageforupload"
+                        @change="$_images_createFileReader"
+                    ></input>
+                    <label for="fileInput">{{ selectedImage.url ? 'Ändern' : 'Auswählen' }}</label>
+                    <button v-if="selectedImage.url" @click="$_images_uploadImage">Hochladen</button>
+                </section>
+
+                <!-- looped items -->
                 <section
                     v-for="element in images"
                     :key="element.id"
@@ -185,31 +212,6 @@
                     </section>
                 </section>
 
-                <!-- admin menu -->
-                <section v-if="admin" class="admin-content-creator">
-                    <h2>{{ message }}</h2>
-                    <img
-                    v-if="selectedImage.url"
-                    :src="selectedImage.url"
-                    alt="Image Preview"
-                    >
-                    <input
-                        :id="'ipt' + $route.params.id"
-                        v-model="description"
-                        @keydown="$_images_uploadImage"
-                        type="text"
-                        placeholder="Private Notiz"
-                    ></input>
-                    <input
-                        id="fileInput"
-                        type="file"
-                        name="imageforupload"
-                        @change="$_images_createFileReader"
-                    ></input>
-                    <label for="fileInput">{{ selectedImage.url ? 'Ändern' : 'Auswählen' }}</label>
-                    <button v-if="selectedImage.url" @click="$_images_uploadImage">Hochladen</button>
-                </section>
-
             </section>
         </script>
 
@@ -223,16 +225,16 @@
                     <input
                         v-model="sender"
                         type="text"
-                        placeholder="Your Name"
+                        placeholder="Name"
                     ></input>
                     <input
                         v-model="mail"
                         type="text"
-                        placeholder="Your Email"
+                        placeholder="Email"
                     ></input>
                     <textarea
                         v-model="text"
-                        placeholder="Your Message"
+                        placeholder="Nachricht"
                     ></textarea>
                     <button @click="$_contact_sendMail">Send</button>
                 </section>
@@ -263,7 +265,7 @@
         <!-- admin template -->
 
         <script id="admin-template" type="text/x-template">
-            <section class="admin-template-container">
+            <section>
                 <h2>{{ message }}</h2>
                 <input
                     v-model="pw"
