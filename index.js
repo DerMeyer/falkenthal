@@ -228,7 +228,6 @@ app.post('/upload_image', uploader.single('file'), s3upload, async (req, res) =>
     if (!req.session.admin) {
         res.end();
     }
-    console.log(req.file);
     if (req.file) {
         try {
             const url = `${s3Url}${req.file.filename}`;
