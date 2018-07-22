@@ -157,27 +157,66 @@ main {
     margin: 8vh 0;
 }
 
-.scroll-container__item {
+.images-headline {
+    grid-column: 1 / 4;
+    display: flex;
+    align-items: center;
+    margin-bottom: -8vh;
+}
+
+.images-headline a {
+    font-size: 2vh;
+    text-align: center;
+    height: 3.5vh;
+    width: 6vw;
+    border: .1vh solid rgb(180, 180, 180);
+    border-radius: 1vh;
+}
+
+.images-headline a:hover {
+    background-color: whitesmoke;
+}
+
+.images-headline h2 {
+    font-size: 2.5vh;
+    text-align: center;
+    white-space: nowrap;
+    width: 68vw;
+}
+
+.scroll-container__project,
+.scroll-container__image {
     position: relative;
     justify-self: center;
     align-self: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+    border-radius: .5vh;
+    box-shadow: .3vh .3vh 1vh lightgray;
+    overflow: hidden;
 }
 
-.scroll-container__item h2 {
+.scroll-container__project {
+    padding: 0 2vw;
+}
+
+.scroll-container__project h2,
+.scroll-container__image h2 {
     font-size: 2.5vh;
     white-space: nowrap;
     margin-bottom: 1vh;
     color: rgb(180, 180, 180);
 }
 
-.scroll-container__item img {
+.scroll-container__project img {
+    max-height: 33vh;
+    max-width: 21vw;
+}
+
+.scroll-container__image img {
     max-height: 40vh;
     max-width: 25vw;
-    border-radius: .5vh;
-    box-shadow: .3vh .3vh 1vh lightgray;
 }
 
 .info-container {
@@ -446,7 +485,8 @@ button.admin-overlay__button--settitle {
         margin: 6vh 0 3vh 0;
     }
 
-    .scroll-container__item {
+    .scroll-container__project,
+    .scroll-container__image {
         position: relative;
         display: flex;
         flex-direction: column;
@@ -454,11 +494,17 @@ button.admin-overlay__button--settitle {
         margin-bottom: 3vh;
     }
 
-    .scroll-container__item h2 {
+    .scroll-container__project h2,
+    .scroll-container__image h2 {
         font-size: 3vh;
     }
 
-    .scroll-container__item img {
+    .scroll-container__project img {
+        max-height: 47vh;
+        max-width: 91vw;
+    }
+
+    .scroll-container__image img {
         max-height: 50vh;
         max-width: 95vw;
     }

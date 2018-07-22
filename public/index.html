@@ -77,7 +77,7 @@
                     :to="'/images/' + element.id"
                     v-for="element in folders"
                     :key="element.id"
-                    class="scroll-container__item"
+                    class="scroll-container__project"
                 >
                     <h2>{{ element.name }}</h2>
                     <img :src="element.title_image_url || 'default_image.jpg'" alt="Folder">
@@ -160,11 +160,16 @@
                     <button v-if="selectedImage.url" @click="$_images_cancelUpload">Doch nicht</button>
                 </section>
 
+                <!-- <section class="images-headline">
+                    <router-link to="projects">Zurück</router-link>
+                    <h2>Rows and Luck</h2>
+                </section> -->
+
                 <!-- looped items -->
                 <section
                     v-for="element in images"
                     :key="element.id"
-                    class="scroll-container__item"
+                    class="scroll-container__image"
                 >
                     <img :src="element.url" alt="Image">
 

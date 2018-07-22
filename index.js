@@ -366,7 +366,7 @@ app.post('/send_mail', (req, res) => {
         });
         const mailOptions = {
             from: req.body.mail,
-            to: 'simon.der.meyer@gmail.com',
+            to: 'falkenthal.jens@gmail.com',
             subject: `Nachricht von ${req.body.sender}`,
             html: `<h2 style="color:gray">Hi Jens!</h2>
                    <h3 style="color:gray">${req.body.sender} hat Dir diese Nachricht von deiner Homepage geschickt:</h3>
