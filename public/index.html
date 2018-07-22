@@ -20,6 +20,10 @@
                     <h2>{{ message }}</h2>
                     <button @click="$_app_logout">Log out</button>
                 </section>
+                <section v-if="!cookies" id="cookies-menu">
+                    <h4>Du kannst diese Seite nur nutzen, wenn du mit Cookies einverstanden bist .</h4>
+                    <button @click="$_app_acceptCookies">OK</button>
+                </section>
                 <section class="headline">
                     <h1>Falkenthal</h1>
                     <img src="icon.png" alt="Logo">
@@ -151,8 +155,9 @@
                         name="imageforupload"
                         @change="$_images_createFileReader"
                     ></input>
-                    <label for="fileInput">{{ selectedImage.url ? 'Ändern' : 'Auswählen' }}</label>
+                    <label v-if="!selectedImage.url" for="fileInput">Auswählen</label>
                     <button v-if="selectedImage.url" @click="$_images_uploadImage">Hochladen</button>
+                    <button v-if="selectedImage.url" @click="$_images_cancelUpload">Doch nicht</button>
                 </section>
 
                 <!-- looped items -->
@@ -265,7 +270,7 @@
         <!-- admin template -->
 
         <script id="admin-template" type="text/x-template">
-            <section>
+            <section class="admin-template-container">
                 <h2>{{ message }}</h2>
                 <input
                     v-model="pw"

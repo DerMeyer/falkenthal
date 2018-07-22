@@ -226,6 +226,9 @@
                     }, 2000);
                 }
             },
+            $_images_cancelUpload: function() {
+                this.selectedImage = {};
+            },
             $_images_setTitleImage: function(event) {
                 const app = this;
                 axios
@@ -497,7 +500,9 @@
         el: '#app',
         data: {
             message: 'Hi Jens !',
-            admin: false
+            admin: false,
+            cookieModal: {},
+            cookies: false
         },
         methods: {
             $_app_logout: function() {
@@ -515,15 +520,45 @@
                         console.log(err);
                         app.message = 'Der Server antwortet nicht .';
                     });
+            },
+            $_app_acceptCookies: function() {
+                const app = this;
+                axios
+                    .get('/accept_cookies')
+                    .then(function(resp) {
+                        if (resp.data.success) {
+                            app.cookieModal.style.top = '-50vh';
+                            const appNxt = app;
+                            window.setTimeout(function() {
+                                app.cookies = true;
+                            }, 2000);
+                        }
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                    });
             }
         },
         mounted: function() {
             this.$router.push('/projects');
+            this.cookieModal = document.getElementById('cookies-menu');
             const app = this;
             axios
                 .get('/is_admin')
                 .then(function(resp) {
                     app.admin = resp.data.admin;
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
+            axios
+                .get('/is_cookies')
+                .then(function(resp) {
+                    if (!resp.data.cookies) {
+                        app.cookieModal.style.top = '3vh';
+                    } else {
+                        app.cookies = true;
+                    }
                 })
                 .catch(function(err) {
                     console.log(err);

@@ -35,7 +35,7 @@ const uploader = multer({
 const cookieSession = require('cookie-session');
 const cookieSessionMiddleware = cookieSession({
     secret: MY_SECRET,
-    maxAge: 1000 * 60 * 60 * 24 * 1
+    maxAge: 1000 * 60 * 60 * 24 * 14
 });
 app.use(cookieSessionMiddleware);
 
@@ -60,7 +60,7 @@ app.get('/is_admin', (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
-    req.session = null;
+    req.session.admin = false;
     res.json({
         success: true
     });
@@ -69,12 +69,32 @@ app.get('/logout', (req, res) => {
 app.post('/login', (req, res) => {
     if (req.body.pw === ADMIN_PASSWORD) {
         req.session.admin = true;
+        req.session.cookies = true;
         res.json({
             success: true
         });
     } else {
         res.json({
             success: false
+        });
+    }
+});
+
+app.get('/accept_cookies', (req, res) => {
+    req.session.cookies = true;
+    res.json({
+        success: true
+    });
+});
+
+app.get('/is_cookies', (req, res) => {
+    if (req.session.cookies) {
+        res.json({
+            cookies: true
+        });
+    } else {
+        res.json({
+            cookies: false
         });
     }
 });
