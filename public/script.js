@@ -217,7 +217,6 @@
                             console.log(err);
                             app.message = 'Der Server antwortet nicht .';
                         });
-
                 } else {
                     this.message = 'Es scheint kein Bild ausgewählt zu sein .';
                     const app = this;
