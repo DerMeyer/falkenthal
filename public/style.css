@@ -148,21 +148,23 @@ main {
 }
 
 .images-container {
-    margin: 8vh 0;
+    margin: 3vh 0 8vh 0;
 }
 
 .images-headline {
     grid-column: 1 / 4;
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     margin-bottom: -8vh;
 }
 
 .images-headline a {
+    justify-self: center;
+    align-self: center;
     font-size: 2vh;
     text-align: center;
     height: 3.5vh;
-    width: 6vw;
+    width: 9vw;
     border: .1vh solid rgb(180, 180, 180);
     border-radius: 1vh;
 }
@@ -172,10 +174,10 @@ main {
 }
 
 .images-headline h2 {
-    font-size: 2.5vh;
+    font-size: 3vh;
     text-align: center;
+    text-decoration: underline;
     white-space: nowrap;
-    width: 68vw;
 }
 
 .scroll-container__project,
@@ -192,8 +194,9 @@ main {
 }
 
 .scroll-container__project {
-    max-width: 25vw;
-    padding: 0 2vw;
+    height: 25vw;
+    width: 25vw;
+    padding: 0 1vw;
 }
 
 .scroll-container__project h2,
@@ -205,8 +208,8 @@ main {
 }
 
 .scroll-container__project img {
-    max-height: 33vh;
-    max-width: 21vw;
+    max-height: 18vw;
+    max-width: 18vw;
 }
 
 .scroll-container__image img {
@@ -288,15 +291,15 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 15vh;
     width: 12vw;
+    padding: 2vh 0;
     border-radius: 1vh;
     background-color: whitesmoke;
 }
 
 .admin-menu h2 {
     font-size: 3vh;
-    margin: 1vw 0 -2vh 0;
+    margin-bottom: -2vh;
 }
 
 .admin-template-container {
@@ -480,6 +483,18 @@ button.admin-overlay__button--settitle {
         margin: 6vh 0 3vh 0;
     }
 
+    .images-headline {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 95vw;
+        margin-bottom: 0;
+    }
+
+    .images-headline a {
+        width: 25vw;
+    }
+
     .scroll-container__project,
     .scroll-container__image {
         position: relative;
@@ -489,14 +504,20 @@ button.admin-overlay__button--settitle {
         margin-bottom: 3vh;
     }
 
+    .scroll-container__project {
+        min-height: 95vw;
+        width: 95vw;
+        padding: 0 5vw;
+    }
+
     .scroll-container__project h2,
     .scroll-container__image h2 {
         font-size: 3vh;
     }
 
     .scroll-container__project img {
-        max-height: 47vh;
-        max-width: 91vw;
+        max-height: 44vh;
+        max-width: 80vw;
     }
 
     .scroll-container__image img {

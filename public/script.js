@@ -169,6 +169,7 @@
                 selectedImage: {},
                 description: '',
                 newfolder: '',
+                title: 'Titel',
                 images: []
             }
         },
@@ -358,10 +359,29 @@
                         console.log(err);
                         app.message = 'Der Server antwortet nicht .';
                     });
+            },
+            $_images_getTitle: function() {
+                const app = this;
+                axios
+                    .post('/get_title', {
+                        id: this.$route.params.id
+                    })
+                    .then(function(resp) {
+                        if (resp.data.success) {
+                            app.title = resp.data.title.name || 'Titel';
+                        } else {
+                            app.message = 'Da ist was schiefgelaufen .';
+                        }
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                        app.message = 'Der Server antwortet nicht .';
+                    });
             }
         },
         mounted: function() {
             this.$_images_getImages();
+            this.$_images_getTitle();
         }
     });
 

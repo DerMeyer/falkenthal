@@ -353,6 +353,24 @@ app.post('/get_images', async (req, res) => {
     }
 });
 
+app.post('/get_title', async (req, res) => {
+    try {
+        const result = await db.query(
+            'SELECT name FROM folders WHERE id = $1',
+            [req.body.id]
+        );
+        res.json({
+            success: true,
+            title: result.rows[0]
+        });
+    } catch (err) {
+        console.log(err);
+        res.json({
+            success: false
+        });
+    }
+});
+
 app.post('/send_mail', (req, res) => {
     try {
         const transporter = nodemailer.createTransport({
